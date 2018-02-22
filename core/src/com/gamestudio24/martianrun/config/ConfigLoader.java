@@ -60,9 +60,10 @@ public class ConfigLoader {
             config.setRunnerDeadAnimation(runnerDeadAnimation);
 
             List<ConfigEnemy> configEnemyList = new ArrayList<ConfigEnemy>();
+            int id = 0;
             for (JsonValue item : base.get("enemies")) {
                 ConfigEnemy configEnemy = new ConfigEnemy();
-                configEnemy.setId(item.getString("id"));
+                configEnemy.setId("enemy"+id++);
                 configEnemy.setHeight(item.getInt("height"));
                 configEnemy.setWidth(item.getInt("width"));
                 configEnemy.setYindex(item.getFloat("y-index") + 0.5f);
@@ -77,9 +78,10 @@ public class ConfigLoader {
             config.setConfigEnemies(configEnemyList);
 
             List<ConfigBackground> configBackgroundList = new ArrayList<ConfigBackground>();
+            id =0;
             for (JsonValue item : base.get("backgroundLayers")) {
                 ConfigBackground configBackground = new ConfigBackground();
-                configBackground.setId(item.getString("id"));
+                configBackground.setId("background"+id++);
                 configBackground.setLayerPath(item.getString("path"));
                 configBackground.setSpeedPercentage(item.getInt("speedPercentage"));
                 configBackgroundList.add(configBackground);

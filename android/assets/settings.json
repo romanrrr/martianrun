@@ -80,7 +80,6 @@
   ],
   "enemies": [
     {
-      "id": "monster1",
       "width": 1,
       "height": 1,
       "y-index": 1,
@@ -106,7 +105,6 @@
       ]
     },
     {
-      "id": "ufo",
       "width": 2,
       "height": 1,
       "y-index": 2.5,
@@ -117,7 +115,6 @@
       ]
     },
     {
-      "id": "spike",
       "width": 1,
       "height": 2,
       "y-index": 1,
@@ -128,7 +125,6 @@
       ]
     },
     {
-      "id": "spikeA",
       "width": 2,
       "height": 1,
       "y-index": 1,
@@ -139,7 +135,6 @@
       ]
     },
     {
-      "id": "spikeB",
       "width": 2,
       "height": 1,
       "y-index": 1,
@@ -150,7 +145,6 @@
       ]
     },
     {
-      "id": "monster2",
       "width": 2,
       "height": 2,
       "y-index": 1,
@@ -178,22 +172,18 @@
   ],
   "backgroundLayers": [
     {
-      "id": "layer1",
       "path": "background\/background_layer_1.png",
       "speedPercentage": 0
     },
     {
-      "id": "layer2",
       "path": "background\/background_layer_2.png",
       "speedPercentage": 30
     },
     {
-      "id": "layer3",
       "path": "background\/background_layer_3.png",
       "speedPercentage": 60
     },
     {
-      "id": "layer4",
       "path": "background\/background_layer_4.png",
       "speedPercentage": 100
     }
