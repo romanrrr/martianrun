@@ -17,9 +17,10 @@
 package com.gamestudio24.martianrun.actors.menu;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.gamestudio24.martianrun.config.ConfigLoader;
 import com.gamestudio24.martianrun.utils.AudioUtils;
 
-public class SoundButton extends GameButton {
+public class SoundButton extends ImageGameButton {
 
     public SoundButton(Rectangle bounds) {
         super(bounds);
@@ -27,7 +28,8 @@ public class SoundButton extends GameButton {
 
     @Override
     protected String getRegionName() {
-        return AudioUtils.getInstance().getSoundRegionName();
+        return AudioUtils.getInstance().isSoundOn() ? ConfigLoader.getConfig().getSoundButton().getImagePath() :
+                ConfigLoader.getConfig().getSoundButton().getClickedImagePath();
     }
 
     @Override

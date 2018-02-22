@@ -17,9 +17,10 @@
 package com.gamestudio24.martianrun.actors.menu;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.gamestudio24.martianrun.config.ConfigLoader;
 import com.gamestudio24.martianrun.utils.Constants;
 
-public class ShareButton extends GameButton {
+public class ShareButton extends ImageGameButton {
 
     public interface ShareButtonListener {
         public void onShare();
@@ -34,7 +35,7 @@ public class ShareButton extends GameButton {
 
     @Override
     protected String getRegionName() {
-        return Constants.SHARE_REGION_NAME;
+        return ConfigLoader.getConfig().getShareButton().getImagePath();
     }
 
     @Override

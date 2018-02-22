@@ -16,13 +16,24 @@
 
 package com.gamestudio24.martianrun.box2d;
 
+import com.badlogic.gdx.math.Vector2;
 import com.gamestudio24.martianrun.enums.UserDataType;
+import com.gamestudio24.martianrun.utils.Constants;
 
 public abstract class UserData {
 
     protected UserDataType userDataType;
     protected float width;
     protected float height;
+    private Vector2 linearVelocity;
+
+    public void setLinearVelocity(Vector2 linearVelocity) {
+        this.linearVelocity = linearVelocity;
+    }
+
+    public Vector2 getLinearVelocity() {
+        return linearVelocity;
+    }
 
     public UserData() {
 
@@ -31,6 +42,8 @@ public abstract class UserData {
     public UserData(float width, float height) {
         this.width = width;
         this.height = height;
+        linearVelocity = Constants.ENEMY_LINEAR_VELOCITY;
+
     }
 
     public UserDataType getUserDataType() {

@@ -16,18 +16,18 @@
 
 package com.gamestudio24.martianrun.utils;
 
-import com.gamestudio24.martianrun.enums.EnemyType;
+import com.gamestudio24.martianrun.config.ConfigEnemy;
+import com.gamestudio24.martianrun.config.ConfigLoader;
+
 
 import java.util.Random;
 
 public class RandomUtils {
 
-    /**
-     * @return a random {@link com.gamestudio24.martianrun.enums.EnemyType}
-     */
-    public static EnemyType getRandomEnemyType() {
-        RandomEnum<EnemyType> randomEnum = new RandomEnum<EnemyType>(EnemyType.class);
-        return randomEnum.random();
+    private static Random RND = new Random();
+
+    public static ConfigEnemy getRandomEnemyType() {
+        return ConfigLoader.getConfig().getConfigEnemies().get(Math.abs(RND.nextInt() % ConfigLoader.getConfig().getConfigEnemies().size()));
     }
 
     /**

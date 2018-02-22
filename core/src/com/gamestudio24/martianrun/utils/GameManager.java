@@ -75,15 +75,6 @@ public class GameManager implements GameEventListener {
         this.gameEventListener = gameEventListener;
     }
 
-    @Override
-    public void displayAd() {
-        gameEventListener.displayAd();
-    }
-
-    @Override
-    public void hideAd() {
-        gameEventListener.hideAd();
-    }
 
     /**
      * Submits a score and unlocks a score-based achievement depending on the total
@@ -92,21 +83,6 @@ public class GameManager implements GameEventListener {
     public void submitScore(int score) {
         gameEventListener.submitScore(score);
 
-        if (score > 5000 && !isAchievementUnlocked(get5kClubAchievementId())) {
-            unlockAchievement(get5kClubAchievementId());
-        }
-
-        if (score > 10000 && !isAchievementUnlocked(get10kClubAchievementId())) {
-            unlockAchievement(get10kClubAchievementId());
-        }
-
-        if (score > 25000 && !isAchievementUnlocked(get25kClubAchievementId())) {
-            unlockAchievement(get25kClubAchievementId());
-        }
-
-        if (score > 50000 && !isAchievementUnlocked(get50kClubAchievementId())) {
-            unlockAchievement(get50kClubAchievementId());
-        }
     }
 
     @Override
@@ -120,8 +96,8 @@ public class GameManager implements GameEventListener {
     }
 
     @Override
-    public void share() {
-        gameEventListener.share();
+    public void share(Integer score) {
+        gameEventListener.share(score);
     }
 
     @Override
@@ -135,58 +111,17 @@ public class GameManager implements GameEventListener {
     }
 
     @Override
-    public String getGettingStartedAchievementId() {
-        return gameEventListener.getGettingStartedAchievementId();
+    public void showFullscreenBanner(GameManager.FullscreenBannerClosedListener fullscreenBannerClosedListener) {
+        gameEventListener.showFullscreenBanner(fullscreenBannerClosedListener);
     }
 
     @Override
-    public String getLikeARoverAchievementId() {
-        return gameEventListener.getLikeARoverAchievementId();
+    public void isDialogEnabled(final GameManager.AboutDialogEnabledListener aboutDialogEnabledListener){
+        gameEventListener.isDialogEnabled(aboutDialogEnabledListener);
     }
 
-    @Override
-    public String getSpiritAchievementId() {
-        return gameEventListener.getSpiritAchievementId();
-    }
-
-    @Override
-    public String getCuriosityAchievementId() {
-        return gameEventListener.getCuriosityAchievementId();
-    }
-
-    @Override
-    public String get5kClubAchievementId() {
-        return gameEventListener.get5kClubAchievementId();
-    }
-
-    @Override
-    public String get10kClubAchievementId() {
-        return gameEventListener.get10kClubAchievementId();
-    }
-
-    @Override
-    public String get25kClubAchievementId() {
-        return gameEventListener.get25kClubAchievementId();
-    }
-
-    @Override
-    public String get50kClubAchievementId() {
-        return gameEventListener.get50kClubAchievementId();
-    }
-
-    @Override
-    public String get10JumpStreetAchievementId() {
-        return gameEventListener.get10JumpStreetAchievementId();
-    }
-
-    @Override
-    public String get100JumpStreetAchievementId() {
-        return gameEventListener.get100JumpStreetAchievementId();
-    }
-
-    @Override
-    public String get500JumpStreetAchievementId() {
-        return gameEventListener.get500JumpStreetAchievementId();
+    public void showDialog(){
+        gameEventListener.showDialog();
     }
 
     private Preferences getPreferences() {
@@ -216,23 +151,6 @@ public class GameManager implements GameEventListener {
     public void addGamePlayed() {
 
         // No need to keep counting if all achievements have been unlocked
-        if (getAchievementCount(getCuriosityAchievementId()) > 500) {
-            return;
-        }
-
-        if (!isAchievementUnlocked(getGettingStartedAchievementId())) {
-            unlockAchievement(getGettingStartedAchievementId());
-        }
-
-        if (getAchievementCount(getLikeARoverAchievementId()) <= 10) {
-            incrementAchievement(getLikeARoverAchievementId(), 1);
-        }
-
-        if (getAchievementCount(getSpiritAchievementId()) <= 100) {
-            incrementAchievement(getSpiritAchievementId(), 1);
-        }
-
-        incrementAchievement(getCuriosityAchievementId(), 1);
 
     }
 
@@ -242,19 +160,6 @@ public class GameManager implements GameEventListener {
             return;
         }
 
-        if (getAchievementCount(get500JumpStreetAchievementId()) > 500) {
-            return;
-        }
-
-        if (getAchievementCount(get500JumpStreetAchievementId()) <= 10) {
-            incrementAchievement(get10JumpStreetAchievementId(), count);
-        }
-
-        if (getAchievementCount(get500JumpStreetAchievementId()) <= 100) {
-            incrementAchievement(get100JumpStreetAchievementId(), count);
-        }
-
-        incrementAchievement(get500JumpStreetAchievementId(), count);
 
     }
 
@@ -284,5 +189,13 @@ public class GameManager implements GameEventListener {
 
     private String getAchievementUnlockedId(String id) {
         return id + ACHIEVEMENT_UNLOCKED_PREFERENCE_SUFFIX;
+    }
+
+    public interface FullscreenBannerClosedListener{
+        void onBannerClosed();
+    }
+
+    public interface AboutDialogEnabledListener{
+        void onAboutEnabled(boolean enabled);
     }
 }

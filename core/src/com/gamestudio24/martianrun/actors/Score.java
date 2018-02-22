@@ -16,10 +16,12 @@
 
 package com.gamestudio24.martianrun.actors;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.gamestudio24.martianrun.config.ConfigLoader;
 import com.gamestudio24.martianrun.enums.GameState;
 import com.gamestudio24.martianrun.utils.AssetsManager;
 import com.gamestudio24.martianrun.utils.GameManager;
@@ -27,17 +29,20 @@ import com.gamestudio24.martianrun.utils.GameManager;
 public class Score extends Actor {
 
     private float score;
+    private float maxScore;
     private int multiplier;
     private Rectangle bounds;
+    private Rectangle multiplierBounds;
     private BitmapFont font;
 
-    public Score(Rectangle bounds) {
+    public Score(Rectangle bounds, Rectangle multiplierBounds) {
         this.bounds = bounds;
+        this.multiplierBounds = multiplierBounds;
         setWidth(bounds.width);
         setHeight(bounds.height);
         score = 0;
-        multiplier = 5;
-        font = AssetsManager.getSmallFont();
+        multiplier = 1;
+        font = AssetsManager.getSmallestFont();
     }
 
     @Override
@@ -46,24 +51,39 @@ public class Score extends Actor {
         if (GameManager.getInstance().getGameState() != GameState.RUNNING) {
             return;
         }
-        score += multiplier * delta;
+        score += multiplier * delta * 5;
+        if(maxScore < score){
+            maxScore = score;
+        }
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        if (getScore() == 0) {
+        if (getScore() == 0 || GameManager.getInstance().getGameState() == GameState.OVER) {
             return;
         }
-        font.drawWrapped(batch, String.format("%d", getScore()), bounds.x, bounds.y, bounds.width, BitmapFont.HAlignment.RIGHT);
+        font.drawWrapped(batch, String.format("Max score: %d", getMaxScore()), multiplierBounds.x, multiplierBounds.y, multiplierBounds.width, BitmapFont.HAlignment.RIGHT);
+        font.drawWrapped(batch, String.format("Score: %d", getScore()), bounds.x, bounds.y, bounds.width, BitmapFont.HAlignment.RIGHT);
     }
 
     public int getScore() {
         return (int) Math.floor(score);
     }
 
+    public int getMaxScore() {
+        return (int) Math.floor(maxScore);
+    }
+
+    public void setMaxScore(float maxScore) {
+        this.maxScore = maxScore;
+    }
+
     public void setMultiplier(int multiplier) {
         this.multiplier = multiplier;
     }
 
+    public int getMultiplier() {
+        return multiplier;
+    }
 }

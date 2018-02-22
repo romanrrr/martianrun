@@ -30,12 +30,18 @@ public class Background extends Actor {
     private final TextureRegion textureRegion;
     private Rectangle textureRegionBounds1;
     private Rectangle textureRegionBounds2;
-    private int speed = 100;
+    private int speedPercentage = 100;
+    private float speed = 10;
 
-    public Background() {
-        textureRegion = AssetsManager.getTextureRegion(Constants.BACKGROUND_ASSETS_ID);
-        textureRegionBounds1 = new Rectangle(0 - Constants.APP_WIDTH / 2, 0, Constants.APP_WIDTH, Constants.APP_HEIGHT);
-        textureRegionBounds2 = new Rectangle(Constants.APP_WIDTH / 2, 0, Constants.APP_WIDTH, Constants.APP_HEIGHT);
+    public Background(String assetId, int speedPercentage) {
+        this.speedPercentage = speedPercentage;
+        textureRegion = AssetsManager.getTextureRegion(assetId);
+        textureRegionBounds1 = new Rectangle(0, 0, Constants.APP_WIDTH, Constants.APP_HEIGHT);
+        textureRegionBounds2 = new Rectangle(Constants.APP_WIDTH, 0, Constants.APP_WIDTH, Constants.APP_HEIGHT);
+    }
+
+    public void setSpeed(float speed) {
+        this.speed =  Math.abs(speed);
     }
 
     @Override
@@ -47,6 +53,7 @@ public class Background extends Actor {
 
         if (leftBoundsReached(delta)) {
             resetBounds();
+            updateXBounds(-delta);
         } else {
             updateXBounds(-delta);
         }
@@ -62,17 +69,19 @@ public class Background extends Actor {
     }
 
     private boolean leftBoundsReached(float delta) {
-        return (textureRegionBounds2.x - (delta * speed)) <= 0;
+        return (textureRegionBounds2.x - (delta * transformToScreen(speed / 100 * speedPercentage))) <= 0;
     }
 
     private void updateXBounds(float delta) {
-        textureRegionBounds1.x += delta * speed;
-        textureRegionBounds2.x += delta * speed;
+        textureRegionBounds1.x += delta * transformToScreen(speed / 100 * speedPercentage);
+        textureRegionBounds2.x += delta * transformToScreen(speed / 100 * speedPercentage);
     }
 
     private void resetBounds() {
         textureRegionBounds1 = textureRegionBounds2;
-        textureRegionBounds2 = new Rectangle(Constants.APP_WIDTH, 0, Constants.APP_WIDTH, Constants.APP_HEIGHT);
+        textureRegionBounds2 = new Rectangle(Constants.APP_WIDTH + textureRegionBounds1.x, 0, Constants.APP_WIDTH, Constants.APP_HEIGHT);
     }
-
+    protected float transformToScreen(float n) {
+        return Constants.WORLD_TO_SCREEN * n;
+    }
 }

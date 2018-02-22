@@ -17,11 +17,12 @@
 package com.gamestudio24.martianrun.actors.menu;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.gamestudio24.martianrun.config.ConfigLoader;
 import com.gamestudio24.martianrun.enums.GameState;
 import com.gamestudio24.martianrun.utils.Constants;
 import com.gamestudio24.martianrun.utils.GameManager;
 
-public class StartButton extends GameButton {
+public class StartButton extends ImageGameButton {
 
     public interface StartButtonListener {
         public void onStart();
@@ -36,7 +37,7 @@ public class StartButton extends GameButton {
 
     @Override
     protected String getRegionName() {
-        return Constants.BIG_PLAY_REGION_NAME;
+        return ConfigLoader.getConfig().getStartButton().getImagePath();
     }
 
     @Override

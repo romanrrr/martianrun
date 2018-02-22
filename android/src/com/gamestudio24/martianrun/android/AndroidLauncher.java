@@ -16,38 +16,44 @@
 
 package com.gamestudio24.martianrun.android;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
+import com.appsgeyser.sdk.AppsgeyserSDK;
+import com.appsgeyser.sdk.ads.AdView;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.gamestudio24.martianrun.MartianRun;
+
+import com.gamestudio24.martianrun.actors.Score;
 import com.gamestudio24.martianrun.utils.Constants;
 import com.gamestudio24.martianrun.utils.GameEventListener;
 import com.gamestudio24.martianrun.utils.GameManager;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.games.Games;
-import com.google.games.basegameutils.GameHelper;
 
-public class AndroidLauncher extends AndroidApplication implements GameHelper.GameHelperListener,
+
+public class AndroidLauncher extends AndroidApplication implements
         GameEventListener {
 
     private static String SAVED_LEADERBOARD_REQUESTED = "SAVED_LEADERBOARD_REQUESTED";
     private static String SAVED_ACHIEVEMENTS_REQUESTED = "SAVED_ACHIEVEMENTS_REQUESTED";
 
-    private GameHelper gameHelper;
+    //private GameHelper gameHelper;
 
-    private AdView mAdView;
+    AdView adView;
+
+    private Boolean isDialogEnabled;
+
     private boolean mLeaderboardRequested;
     private boolean mAchievementsRequested;
-
+    GameManager.FullscreenBannerClosedListener fullscreenBannerClosedListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,41 +69,73 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
 
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
+        AppsgeyserSDK.takeOff(this,
+                getString(R.string.widgetID),
+                getString(R.string.app_metrica_on_start_event),
+                getString(R.string.template_version));
+
         // Game view
         View gameView = initializeForView(new MartianRun(this), config);
+        adView = createAdView();
+
         layout.addView(gameView);
-
-
-        mAdView = createAdView();
-        mAdView.loadAd(createAdRequest());
-
-        layout.addView(mAdView, getAdParams());
+        layout.addView(adView);
 
         setContentView(layout);
 
-        gameHelper = new GameHelper(this, GameHelper.CLIENT_GAMES);
+
+
+       /* gameHelper = new GameHelper(this, GameHelper.CLIENT_GAMES);
         gameHelper.setup(this);
-        gameHelper.setMaxAutoSignInAttempts(0);
+        gameHelper.setMaxAutoSignInAttempts(0);*/
     }
+
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        AppsgeyserSDK.onResume(this);
+        if (adView != null) {
+            adView.onResume();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        AppsgeyserSDK.onPause(this);
+        if (adView != null) {
+            adView.onPause();
+        }
+    }
+
+
+
 
     @Override
     protected void onStart() {
         super.onStart();
-        gameHelper.onStart(this);
-        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+        //gameHelper.onStart(this);
+       // GoogleAnalytics.getInstance(this).reportActivityStart(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        gameHelper.onStop();
-        GoogleAnalytics.getInstance(this).reportActivityStop(this);
+       // gameHelper.onStop();
+        //GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        gameHelper.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 999){
+            fullscreenBannerClosedListener.onBannerClosed();
+        }
+
+        //gameHelper.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -114,18 +152,22 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
         mAchievementsRequested = savedInstanceState.getBoolean(SAVED_ACHIEVEMENTS_REQUESTED, false);
     }
 
-    private AdRequest createAdRequest() {
-        return new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                .build();
-    }
-
     private AdView createAdView() {
-        AdView adView = new AdView(this);
 
-        adView.setAdSize(AdSize.SMART_BANNER);
-        adView.setAdUnitId(getAdMobUnitId());
+        adView = new AdView(this, null);
+        final float scale = getResources().getDisplayMetrics().density;
+        int dpHeightInPx = (int) (50 * scale);//50dp
+        int dpWidthInPx = (int) (320 * scale);//50dp
+        adView.setId(R.id.ad_view); // this is an arbitrary id, allows for relative
+        // positioning in createGameView()
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                dpWidthInPx, dpHeightInPx);
+        params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+//        params.gravity = Gravity.BOTTOM;
+        params.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 
+        adView.setLayoutParams(params);
+        adView.setBackgroundColor(Color.TRANSPARENT);
         return adView;
     }
 
@@ -140,156 +182,94 @@ public class AndroidLauncher extends AndroidApplication implements GameHelper.Ga
     }
 
     @Override
-    public void onSignInFailed() {
-        // handle sign-in failure (e.g. show Sign In button)
-        mLeaderboardRequested = false;
-        mAchievementsRequested = false;
-    }
-
-    @Override
-    public void onSignInSucceeded() {
-        // handle sign-in success
-        if (GameManager.getInstance().hasSavedMaxScore()) {
-            GameManager.getInstance().submitSavedMaxScore();
-        }
-
-        if (mLeaderboardRequested) {
-            displayLeaderboard();
-            mLeaderboardRequested = false;
-        }
-
-        if (mAchievementsRequested) {
-            displayAchievements();
-            mAchievementsRequested = false;
-        }
-    }
-
-    @Override
-    public void displayAd() {
-        mAdView.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideAd() {
-        mAdView.setVisibility(View.GONE);
-    }
-
-    @Override
     public void submitScore(int score) {
-        if (gameHelper.isSignedIn()) {
-            Games.Leaderboards.submitScore(gameHelper.getApiClient(),
-                    getString(R.string.leaderboard_high_scores), score);
-        } else {
-            GameManager.getInstance().saveScore(score);
+
+    }
+
+    public void isDialogEnabled(final GameManager.AboutDialogEnabledListener aboutDialogEnabledListener){
+        if(isDialogEnabled == null) {
+            AppsgeyserSDK.isAboutDialogEnabled(this, new AppsgeyserSDK.OnAboutDialogEnableListener() {
+                @Override
+                public void onDialogEnableReceived(boolean enabled) {
+                    isDialogEnabled = enabled;
+                    aboutDialogEnabledListener.onAboutEnabled(enabled);
+                }
+            });
+        }else {
+            aboutDialogEnabledListener.onAboutEnabled(isDialogEnabled);
         }
+    }
+
+    public void showDialog(){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AppsgeyserSDK.showAboutDialog(AndroidLauncher.this);
+            }
+        });
+    }
+
+    public void showFullscreenBanner(final GameManager.FullscreenBannerClosedListener fullscreenBannerClosedListener){
+        this.fullscreenBannerClosedListener = fullscreenBannerClosedListener;
+
+        Intent intent = new Intent(this, BannerActivity.class);
+        startActivityForResult(intent, 999);
     }
 
     @Override
     public void displayLeaderboard() {
-        if (gameHelper.isSignedIn()) {
+       /* if (gameHelper.isSignedIn()) {
             startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(),
                     getString(R.string.leaderboard_high_scores)), 24);
-        } else {
-            gameHelper.beginUserInitiatedSignIn();
-            mLeaderboardRequested = true;
-        }
+        } else {*/
+            //gameHelper.beginUserInitiatedSignIn();
+           // mLeaderboardRequested = true;
+        //}
     }
 
     @Override
     public void displayAchievements() {
-        if (gameHelper.isSignedIn()) {
+      /*  if (gameHelper.isSignedIn()) {
             startActivityForResult(
                     Games.Achievements.getAchievementsIntent(gameHelper.getApiClient()), 25);
         } else {
             gameHelper.beginUserInitiatedSignIn();
             mAchievementsRequested = true;
-        }
+        }*/
     }
 
     @Override
-    public void share() {
+    public void share(Integer score) {
         String url = String.format("http://play.google.com/store/apps/details?id=%s",
-                BuildConfig.APPLICATION_ID);
-        String message = String.format(Constants.SHARE_MESSAGE_PREFIX, url);
+                getApplicationContext().getPackageName());
+        String message;
+        if(score == null) {
+            message = String.format(com.gamestudio24.martianrun.utils.Constants.SHARE_MESSAGE_PREFIX, url);
+        }else {
+            message = String.format(Constants.SHARE_MESSAGE_PREFIX_SCORE, score, url);
+        }
         Intent share = new Intent(Intent.ACTION_SEND);
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_TEXT, message);
-        startActivity(Intent.createChooser(share, Constants.SHARE_TITLE));
+        startActivity(Intent.createChooser(share, com.gamestudio24.martianrun.utils.Constants.SHARE_TITLE));
     }
 
     @Override
     public void unlockAchievement(String id) {
-        if (gameHelper.isSignedIn()) {
+      /*  if (gameHelper.isSignedIn()) {
             Games.Achievements.unlock(gameHelper.getApiClient(), id);
             GameManager.getInstance().setAchievementUnlocked(id);
-        }
+        }*/
     }
 
     @Override
     public void incrementAchievement(String id, int steps) {
-        if (gameHelper.isSignedIn()) {
+       /* if (gameHelper.isSignedIn()) {
             Games.Achievements.increment(gameHelper.getApiClient(), id, steps);
             GameManager.getInstance().incrementAchievementCount(id, steps);
-        }
+        }*/
     }
 
-    @Override
-    public String getGettingStartedAchievementId() {
-        return getString(R.string.achievement_getting_started);
-    }
 
-    @Override
-    public String getLikeARoverAchievementId() {
-        return getString(R.string.achievement_like_a_rover);
-    }
-
-    @Override
-    public String getSpiritAchievementId() {
-        return getString(R.string.achievement_spirit);
-    }
-
-    @Override
-    public String getCuriosityAchievementId() {
-        return getString(R.string.achievement_curiosity);
-    }
-
-    @Override
-    public String get5kClubAchievementId() {
-        return getString(R.string.achievement_5k_club);
-    }
-
-    @Override
-    public String get10kClubAchievementId() {
-        return getString(R.string.achievement_10k_club);
-    }
-
-    @Override
-    public String get25kClubAchievementId() {
-        return getString(R.string.achievement_25k_club);
-    }
-
-    @Override
-    public String get50kClubAchievementId() {
-        return getString(R.string.achievement_50k_club);
-    }
-
-    @Override
-    public String get10JumpStreetAchievementId() {
-        return getString(R.string.achievement_10_jump_street);
-    }
-
-    @Override
-    public String get100JumpStreetAchievementId() {
-        return getString(R.string.achievement_100_jump_street);
-    }
-
-    @Override
-    public String get500JumpStreetAchievementId() {
-        return getString(R.string.achievement_500_jump_street);
-    }
-
-    private String getAdMobUnitId() {
-        return getString(R.string.ad_unit_id);
-    }
 
 }

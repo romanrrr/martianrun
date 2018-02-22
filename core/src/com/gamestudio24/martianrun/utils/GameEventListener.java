@@ -22,15 +22,6 @@ package com.gamestudio24.martianrun.utils;
  */
 public interface GameEventListener {
 
-    /**
-     * Displays an ad
-     */
-    public void displayAd();
-
-    /**
-     * Hides an ad
-     */
-    public void hideAd();
 
     /**
      * Submits a given score. Used every time the game is over
@@ -52,7 +43,7 @@ public interface GameEventListener {
     /**
      * Shares the game's website
      */
-    public void share();
+    public void share(Integer score);
 
     /**
      * Unlocks an achievement with the given ID
@@ -75,59 +66,9 @@ public interface GameEventListener {
      * The following are getters for specific achievement IDs used in this game
      */
 
-    /**
-     * @return "Getting Started" achievement ID
-     */
-    public String getGettingStartedAchievementId();
+    void showFullscreenBanner(GameManager.FullscreenBannerClosedListener fullscreenBannerClosedListener);
 
-    /**
-     * @return "Like a Rover" achievement ID
-     */
-    public String getLikeARoverAchievementId();
+    void isDialogEnabled(final GameManager.AboutDialogEnabledListener aboutDialogEnabledListener);
 
-    /**
-     * @return "Spirit" achievement ID
-     */
-    public String getSpiritAchievementId();
-
-    /**
-     * @return "Curiosity" achievement ID
-     */
-    public String getCuriosityAchievementId();
-
-    /**
-     * @return "5k Club" achievement ID
-     */
-    public String get5kClubAchievementId();
-
-    /**
-     * @return "10k Club" achievement ID
-     */
-    public String get10kClubAchievementId();
-
-    /**
-     * @return "25k Club" achievement ID
-     */
-    public String get25kClubAchievementId();
-
-    /**
-     * @return "50k Club" achievement ID
-     */
-    public String get50kClubAchievementId();
-
-    /**
-     * @return "10 Jump Street" achievement ID
-     */
-    public String get10JumpStreetAchievementId();
-
-    /**
-     * @return "100 Jump Street" achievement ID
-     */
-    public String get100JumpStreetAchievementId();
-
-    /**
-     * @return "500 Jump Street" achievement ID
-     */
-    public String get500JumpStreetAchievementId();
-
+    void showDialog();
 }

@@ -20,6 +20,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.gamestudio24.martianrun.config.Config;
+import com.gamestudio24.martianrun.config.ConfigLoader;
 
 public class AudioUtils {
 
@@ -27,6 +29,7 @@ public class AudioUtils {
     private static Music music;
     private static Sound jumpSound;
     private static Sound hitSound;
+    private static Sound coinSound;
 
     private static final String MUSIC_ON_PREFERENCE = "music_on";
     private static final String SOUND_ON_PREFERENCE = "sound_on";
@@ -47,11 +50,13 @@ public class AudioUtils {
     }
 
     public void init() {
-        music = Gdx.audio.newMusic(Gdx.files.internal(Constants.GAME_MUSIC));
+        Config config = ConfigLoader.getConfig();
+        music = Gdx.audio.newMusic(Gdx.files.internal(config.getMusic()));
         music.setLooping(true);
         playMusic();
-        jumpSound = createSound(Constants.RUNNER_JUMPING_SOUND);
-        hitSound = createSound(Constants.RUNNER_HIT_SOUND);
+        jumpSound = createSound(config.getJumpSound());
+        hitSound = createSound(config.getHitSound());
+        coinSound = createSound(config.getCoinSound());
     }
 
     public Sound createSound(String soundFileName) {
@@ -68,7 +73,7 @@ public class AudioUtils {
     public void playSound(Sound sound) {
         boolean soundOn = getPreferences().getBoolean(SOUND_ON_PREFERENCE, true);
         if (soundOn) {
-            sound.play();
+            sound.play(0.4f);
         }
     }
 
@@ -90,6 +95,7 @@ public class AudioUtils {
         music.dispose();
         jumpSound.dispose();
         hitSound.dispose();
+        coinSound.dispose();
     }
 
     public void pauseMusic() {
@@ -99,6 +105,10 @@ public class AudioUtils {
     public String getSoundRegionName() {
         boolean soundOn = getPreferences().getBoolean(SOUND_ON_PREFERENCE, true);
         return soundOn ? Constants.SOUND_ON_REGION_NAME : Constants.SOUND_OFF_REGION_NAME;
+    }
+
+    public boolean isSoundOn(){
+        return  getPreferences().getBoolean(SOUND_ON_PREFERENCE, true);
     }
 
     public String getMusicRegionName() {
@@ -112,5 +122,9 @@ public class AudioUtils {
 
     public Sound getHitSound() {
         return hitSound;
+    }
+
+    public Sound getCoinSound() {
+        return coinSound;
     }
 }

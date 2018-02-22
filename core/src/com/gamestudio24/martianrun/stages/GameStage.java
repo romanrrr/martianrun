@@ -17,19 +17,37 @@
 package com.gamestudio24.martianrun.stages;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.gamestudio24.martianrun.actors.*;
 import com.gamestudio24.martianrun.actors.menu.*;
+import com.gamestudio24.martianrun.box2d.InterractionUserData;
+import com.gamestudio24.martianrun.box2d.UserData;
+import com.gamestudio24.martianrun.config.ConfigBackground;
+import com.gamestudio24.martianrun.config.ConfigButton;
+import com.gamestudio24.martianrun.config.ConfigLoader;
 import com.gamestudio24.martianrun.enums.Difficulty;
 import com.gamestudio24.martianrun.enums.GameState;
+import com.gamestudio24.martianrun.enums.UserDataType;
 import com.gamestudio24.martianrun.utils.*;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.TimerTask;
 
 public class GameStage extends Stage implements ContactListener {
 
@@ -52,20 +70,32 @@ public class GameStage extends Stage implements ContactListener {
     private MusicButton musicButton;
     private PauseButton pauseButton;
     private StartButton startButton;
-    private LeaderboardButton leaderboardButton;
+
     private AboutButton aboutButton;
     private ShareButton shareButton;
-    private AchievementsButton achievementsButton;
+
+    private ResultLabel resultLabel;
+
+
+    private Timer.Task timerTask;
+    private Timer timer;
+    private List<Background> backgroundList;
 
     private Score score;
     private float totalTimePassed;
     private boolean tutorialShown;
 
     private Vector3 touchPoint;
+    private Random random;
+
+    private int gameOverCounter = 0;
+
+    Preferences prefs = Gdx.app.getPreferences("default");
 
     public GameStage() {
         super(new ScalingViewport(Scaling.stretch, VIEWPORT_WIDTH, VIEWPORT_HEIGHT,
                 new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
+        random = new Random();
         setUpCamera();
         setUpStageBase();
         setUpGameLabel();
@@ -82,7 +112,7 @@ public class GameStage extends Stage implements ContactListener {
     }
 
     private void setUpGameLabel() {
-        Rectangle gameLabelBounds = new Rectangle(0, getCamera().viewportHeight * 7 / 8,
+        Rectangle gameLabelBounds = new Rectangle(0, getCamera().viewportHeight * 7 / 9,
                 getCamera().viewportWidth, getCamera().viewportHeight / 4);
         addActor(new GameLabel(gameLabelBounds));
     }
@@ -103,33 +133,33 @@ public class GameStage extends Stage implements ContactListener {
     }
 
     private void setUpSound() {
-        Rectangle soundButtonBounds = new Rectangle(getCamera().viewportWidth / 64,
-                getCamera().viewportHeight * 13 / 20, getCamera().viewportHeight / 10,
-                getCamera().viewportHeight / 10);
+        Rectangle soundButtonBounds = createButtonBounds(ConfigLoader.getConfig().getSoundButton());
         soundButton = new SoundButton(soundButtonBounds);
         addActor(soundButton);
     }
 
     private void setUpMusic() {
-        Rectangle musicButtonBounds = new Rectangle(getCamera().viewportWidth / 64,
-                getCamera().viewportHeight * 4 / 5, getCamera().viewportHeight / 10,
-                getCamera().viewportHeight / 10);
+        Rectangle musicButtonBounds = createButtonBounds(ConfigLoader.getConfig().getMusicButton());
         musicButton = new MusicButton(musicButtonBounds);
         addActor(musicButton);
     }
 
     private void setUpScore() {
         Rectangle scoreBounds = new Rectangle(getCamera().viewportWidth * 47 / 64,
-                getCamera().viewportHeight * 57 / 64, getCamera().viewportWidth / 4,
+                getCamera().viewportHeight * 57 / 64  - getCamera().viewportHeight / 16 - 20, getCamera().viewportWidth / 4,
                 getCamera().viewportHeight / 8);
-        score = new Score(scoreBounds);
+
+        Rectangle multiplierBounds = new Rectangle(getCamera().viewportWidth * 47 / 64,
+                getCamera().viewportHeight * 57 / 64 - 20, getCamera().viewportWidth / 4,
+                getCamera().viewportHeight / 8);
+
+        score = new Score(scoreBounds, multiplierBounds);
+        score.setMaxScore(prefs.getFloat("maxScore"));
         addActor(score);
     }
 
     private void setUpPause() {
-        Rectangle pauseButtonBounds = new Rectangle(getCamera().viewportWidth / 64,
-                getCamera().viewportHeight * 1 / 2, getCamera().viewportHeight / 10,
-                getCamera().viewportHeight / 10);
+        Rectangle pauseButtonBounds = createButtonBounds(ConfigLoader.getConfig().getPauseButton());
         pauseButton = new PauseButton(pauseButtonBounds, new GamePauseButtonListener());
         addActor(pauseButton);
     }
@@ -139,52 +169,43 @@ public class GameStage extends Stage implements ContactListener {
      */
     private void setUpMainMenu() {
         setUpStart();
-        setUpLeaderboard();
         setUpAbout();
         setUpShare();
-        setUpAchievements();
+    }
+
+    private Rectangle createButtonBounds(ConfigButton configButton){
+
+        return new Rectangle(configButton.getX() * Constants.WORLD_TO_SCREEN - configButton.getWidth() * Constants.WORLD_TO_SCREEN / 2,
+                configButton.getY() * Constants.WORLD_TO_SCREEN - configButton.getHeight() * Constants.WORLD_TO_SCREEN / 2,
+                configButton.getWidth() * Constants.WORLD_TO_SCREEN,
+                configButton.getWidth() * Constants.WORLD_TO_SCREEN);
     }
 
     private void setUpStart() {
-        Rectangle startButtonBounds = new Rectangle(getCamera().viewportWidth * 3 / 16,
-                getCamera().viewportHeight / 4, getCamera().viewportWidth / 4,
-                getCamera().viewportWidth / 4);
+        Rectangle startButtonBounds = createButtonBounds(ConfigLoader.getConfig().getStartButton());
         startButton = new StartButton(startButtonBounds, new GameStartButtonListener());
         addActor(startButton);
     }
 
-    private void setUpLeaderboard() {
-        Rectangle leaderboardButtonBounds = new Rectangle(getCamera().viewportWidth * 9 / 16,
-                getCamera().viewportHeight / 4, getCamera().viewportWidth / 4,
-                getCamera().viewportWidth / 4);
-        leaderboardButton = new LeaderboardButton(leaderboardButtonBounds,
-                new GameLeaderboardButtonListener());
-        addActor(leaderboardButton);
-    }
-
     private void setUpAbout() {
-        Rectangle aboutButtonBounds = new Rectangle(getCamera().viewportWidth * 23 / 25,
-                getCamera().viewportHeight * 13 / 20, getCamera().viewportHeight / 10,
-                getCamera().viewportHeight / 10);
-        aboutButton = new AboutButton(aboutButtonBounds, new GameAboutButtonListener());
-        addActor(aboutButton);
+
+        GameManager.getInstance().isDialogEnabled(new GameManager.AboutDialogEnabledListener() {
+            @Override
+            public void onAboutEnabled(boolean enabled) {
+                if(enabled && GameManager.getInstance().getGameState() == GameState.OVER) {
+                    Rectangle aboutButtonBounds = createButtonBounds(ConfigLoader.getConfig().getAboutButton());
+                    aboutButton = new AboutButton(aboutButtonBounds, new GameAboutButtonListener());
+                    addActor(aboutButton);
+                }
+            }
+        });
+
     }
 
     private void setUpShare() {
-        Rectangle shareButtonBounds = new Rectangle(getCamera().viewportWidth / 64,
-                getCamera().viewportHeight / 2, getCamera().viewportHeight / 10,
-                getCamera().viewportHeight / 10);
+        Rectangle shareButtonBounds =  createButtonBounds(ConfigLoader.getConfig().getShareButton());
         shareButton = new ShareButton(shareButtonBounds, new GameShareButtonListener());
         addActor(shareButton);
-    }
-
-    private void setUpAchievements() {
-        Rectangle achievementsButtonBounds = new Rectangle(getCamera().viewportWidth * 23 / 25,
-                getCamera().viewportHeight / 2, getCamera().viewportHeight / 10,
-                getCamera().viewportHeight / 10);
-        achievementsButton = new AchievementsButton(achievementsButtonBounds,
-                new GameAchievementsButtonListener());
-        addActor(achievementsButton);
     }
 
     private void setUpWorld() {
@@ -194,8 +215,14 @@ public class GameStage extends Stage implements ContactListener {
         setUpGround();
     }
 
+
     private void setUpBackground() {
-        addActor(new Background());
+        backgroundList = new ArrayList<Background>();
+        for (ConfigBackground configBackground : ConfigLoader.getConfig().getConfigBackgroundList()) {
+            Background background = new Background(configBackground.getId(), configBackground.getSpeedPercentage());
+            backgroundList.add(background);
+            addActor(background);
+        }
     }
 
     private void setUpGround() {
@@ -206,7 +233,24 @@ public class GameStage extends Stage implements ContactListener {
     private void setUpCharacters() {
         setUpRunner();
         setUpPauseLabel();
-        createEnemy();
+        setUpResultLabel();
+        timerTask = new Timer.Task() {
+            @Override
+            public void run() {
+                if (!runner.isHit()) {
+                    createEnemy();
+                    if (Math.abs(random.nextInt() % 100) < 10) {
+                        createCoin();
+                    }
+                    timer.scheduleTask(timerTask
+                            , GameManager.getInstance().getDifficulty().getGenerateTime() / 1000f);
+                }
+            }
+        };
+        timer = new Timer();
+        timer.scheduleTask(timerTask
+                , GameManager.getInstance().getDifficulty().getGenerateTime() / 1000f);
+
     }
 
     private void setUpRunner() {
@@ -232,10 +276,18 @@ public class GameStage extends Stage implements ContactListener {
     }
 
     private void setUpPauseLabel() {
-        Rectangle pauseLabelBounds = new Rectangle(0, getCamera().viewportHeight * 7 / 8,
+        Rectangle pauseLabelBounds = new Rectangle(0, getCamera().viewportHeight * 7 / 9,
                 getCamera().viewportWidth, getCamera().viewportHeight / 4);
         addActor(new PausedLabel(pauseLabelBounds));
     }
+
+    private void setUpResultLabel() {
+        Rectangle resultLabelBounds = new Rectangle(0, getCamera().viewportHeight * 7 / 9,
+                getCamera().viewportWidth, getCamera().viewportHeight / 4);
+        resultLabel = new ResultLabel(resultLabelBounds);
+        addActor(resultLabel);
+    }
+
 
     private void setUpTutorial() {
         if (tutorialShown) {
@@ -281,34 +333,59 @@ public class GameStage extends Stage implements ContactListener {
         for (Body body : bodies) {
             update(body);
         }
+        for (Background background : backgroundList) {
+            background.setSpeed(GameManager.getInstance().getDifficulty().getEnemyLinearVelocity().x);
+        }
 
         // Fixed timestep
         accumulator += delta;
 
         while (accumulator >= delta) {
-            world.step(TIME_STEP, 6, 2);
+            world.step(TIME_STEP, 8, 3);
             accumulator -= TIME_STEP;
+
         }
 
         //TODO: Implement interpolation
 
     }
 
+
     private void update(Body body) {
-        if (!BodyUtils.bodyInBounds(body)) {
-            if (BodyUtils.bodyIsEnemy(body) && !runner.isHit()) {
-                createEnemy();
+        if (!BodyUtils.bodyInBounds(body) || (body.getUserData() instanceof InterractionUserData && ((InterractionUserData) body.getUserData()).isToDelete())) {
+            /*if ((BodyUtils.bodyIsCoin(body)) && !runner.isHit()) {
+                createCoin();
             }
+            if ((BodyUtils.bodyIsEnemy(body)) && !runner.isHit()) {
+                createEnemy();
+            }*/
             world.destroyBody(body);
+        } else {
+
+            if (GameManager.getInstance().getGameState() == GameState.RUNNING) {
+                ((UserData) body.getUserData()).setLinearVelocity(
+                        GameManager.getInstance().getDifficulty().getEnemyLinearVelocity());
+            }else {
+                ((UserData) body.getUserData()).setLinearVelocity(new Vector2(0, 0));
+            }
+
         }
     }
 
     private void createEnemy() {
-        Enemy enemy = new Enemy(WorldUtils.createEnemy(world));
+        Interaction enemy = WorldUtils.createEnemy(world);
         enemy.getUserData().setLinearVelocity(
                 GameManager.getInstance().getDifficulty().getEnemyLinearVelocity());
         addActor(enemy);
     }
+
+    private void createCoin() {
+        Interaction enemy = WorldUtils.createCoin(world);
+        enemy.getUserData().setLinearVelocity(
+                GameManager.getInstance().getDifficulty().getEnemyLinearVelocity());
+        addActor(enemy);
+    }
+
 
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
@@ -354,7 +431,6 @@ public class GameStage extends Stage implements ContactListener {
         switch (GameManager.getInstance().getGameState()) {
             case OVER:
                 touched = startButton.getBounds().contains(x, y)
-                        || leaderboardButton.getBounds().contains(x, y)
                         || aboutButton.getBounds().contains(x, y);
                 break;
             case RUNNING:
@@ -397,8 +473,14 @@ public class GameStage extends Stage implements ContactListener {
                 return;
             }
             runner.hit();
-            displayAd();
+
+
+            resultLabel.setScore(score, prefs.getFloat("maxScore") < score.getScore());
+
             GameManager.getInstance().submitScore(score.getScore());
+            prefs.putFloat("maxScore", score.getMaxScore());
+            prefs.flush();
+
             onGameOver();
             GameManager.getInstance().addGamePlayed();
             GameManager.getInstance().addJumpCount(runner.getJumpCount());
@@ -424,7 +506,7 @@ public class GameStage extends Stage implements ContactListener {
             GameManager.getInstance().setDifficulty(Difficulty.valueOf(difficultyName));
 
             runner.onDifficultyChange(GameManager.getInstance().getDifficulty());
-            score.setMultiplier(GameManager.getInstance().getDifficulty().getScoreMultiplier());
+            score.setMultiplier(score.getMultiplier() + 1);
 
             displayAd();
         }
@@ -432,7 +514,7 @@ public class GameStage extends Stage implements ContactListener {
     }
 
     private void displayAd() {
-        GameManager.getInstance().displayAd();
+
     }
 
     @Override
@@ -442,12 +524,35 @@ public class GameStage extends Stage implements ContactListener {
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
+        if (contact.getFixtureA() == null || contact.getFixtureB() == null || contact.getFixtureA().getBody() == null ||
+                contact.getFixtureA().getBody() == null) {
+            contact.setEnabled(false);
+            return;
+        }
+        Body a = contact.getFixtureA().getBody();
+        Body b = contact.getFixtureB().getBody();
 
+        if (BodyUtils.bodyIsRunner(a) && BodyUtils.bodyIsCoin(b) ||
+                BodyUtils.bodyIsCoin(a) && BodyUtils.bodyIsRunner(b)) {
+            contact.setEnabled(false);
+            runner.grabCoin();
+            if (BodyUtils.bodyIsCoin(a)) {
+                if (!((InterractionUserData) a.getUserData()).isToDelete()) {
+                    score.setMultiplier(score.getMultiplier() + 1);
+                }
+                ((InterractionUserData) a.getUserData()).setToDelete(true);
+            }
+            if (BodyUtils.bodyIsCoin(b)) {
+                if (!((InterractionUserData) b.getUserData()).isToDelete()) {
+                    score.setMultiplier(score.getMultiplier() + 1);
+                }
+                ((InterractionUserData) b.getUserData()).setToDelete(true);
+            }
+        }
     }
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
-
     }
 
     private class GamePauseButtonListener implements PauseButton.PauseButtonListener {
@@ -478,28 +583,22 @@ public class GameStage extends Stage implements ContactListener {
 
     }
 
-    private class GameLeaderboardButtonListener
-            implements LeaderboardButton.LeaderboardButtonListener {
-
-        @Override
-        public void onLeaderboard() {
-            GameManager.getInstance().displayLeaderboard();
-        }
-
-    }
 
     private class GameAboutButtonListener implements AboutButton.AboutButtonListener {
 
         @Override
         public void onAbout() {
-            if (GameManager.getInstance().getGameState() == GameState.OVER) {
+
+            GameManager.getInstance().showDialog();
+
+            /*if (GameManager.getInstance().getGameState() == GameState.OVER) {
                 onGameAbout();
             } else {
                 clear();
                 setUpStageBase();
                 setUpGameLabel();
                 onGameOver();
-            }
+            }*/
         }
 
     }
@@ -508,34 +607,57 @@ public class GameStage extends Stage implements ContactListener {
 
         @Override
         public void onShare() {
-            GameManager.getInstance().share();
+            if(score == null || score.getScore() == 0){
+                GameManager.getInstance().share(null);
+            }else {
+                GameManager.getInstance().share(score.getScore());
+            }
         }
 
     }
 
-    private class GameAchievementsButtonListener
-            implements AchievementsButton.AchievementsButtonListener {
 
-        @Override
-        public void onAchievements() {
-            GameManager.getInstance().displayAchievements();
-        }
-
-    }
+    Long timerDelay = null;
 
     private void onGamePaused() {
         GameManager.getInstance().setGameState(GameState.PAUSED);
+        if (timer != null) {
+            timerDelay = System.currentTimeMillis();
+            timer.stop();
+        }
     }
 
     private void onGameResumed() {
         GameManager.getInstance().setGameState(GameState.RUNNING);
+        if (timer != null) {
+            if (timerDelay != null) {
+                timer.delay(System.currentTimeMillis() - timerDelay);
+            }
+            timer.start();
+        }
     }
 
     private void onGameOver() {
+        gameOverCounter++;
+
         GameManager.getInstance().setGameState(GameState.OVER);
+        if(totalTimePassed > 0 && gameOverCounter > 3) {
+            gameOverCounter = 0;
+
+            GameManager.getInstance().showFullscreenBanner(new GameManager.FullscreenBannerClosedListener() {
+                @Override
+                public void onBannerClosed() {
+
+                }
+            });
+        }
         GameManager.getInstance().resetDifficulty();
         totalTimePassed = 0;
         setUpMainMenu();
+        timerDelay = null;
+        if (timer != null) {
+            timer.stop();
+        }
     }
 
     private void onGameAbout() {

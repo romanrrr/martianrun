@@ -20,13 +20,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.gamestudio24.martianrun.stages.GameStage;
+import com.gamestudio24.martianrun.utils.FrameRate;
 
 public class GameScreen implements Screen {
 
     private GameStage stage;
-
+    private FrameRate frameRate;
     public GameScreen() {
         stage = new GameStage();
+        frameRate = new FrameRate();
     }
 
     @Override
@@ -37,6 +39,9 @@ public class GameScreen implements Screen {
         //Update the stage
         stage.draw();
         stage.act(delta);
+
+        frameRate.update();
+        frameRate.render();
     }
 
     @Override

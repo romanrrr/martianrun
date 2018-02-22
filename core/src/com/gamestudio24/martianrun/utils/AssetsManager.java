@@ -17,20 +17,25 @@
 package com.gamestudio24.martianrun.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.gamestudio24.martianrun.config.Config;
+import com.gamestudio24.martianrun.config.ConfigBackground;
+import com.gamestudio24.martianrun.config.ConfigEnemy;
+import com.gamestudio24.martianrun.config.ConfigLoader;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class AssetsManager {
 
     private static HashMap<String, TextureRegion> texturesMap = new HashMap<String, TextureRegion>();
     private static HashMap<String, Animation> animationsMap = new HashMap<String, Animation>();
-    private static TextureAtlas textureAtlas;
     private static BitmapFont smallFont;
     private static BitmapFont smallestFont;
     private static BitmapFont largeFont;
@@ -42,57 +47,61 @@ public class AssetsManager {
     public static void loadAssets() {
 
         // Background
-        texturesMap.put(Constants.BACKGROUND_ASSETS_ID,
-                new TextureRegion(new Texture(Gdx.files.internal(Constants.BACKGROUND_IMAGE_PATH))));
+        Config config = ConfigLoader.getConfig();
 
+        for (ConfigBackground configBackground: config.getConfigBackgroundList()){
+            texturesMap.put(configBackground.getId(),
+                    new TextureRegion(new Texture(Gdx.files.internal(configBackground.getLayerPath()))));
+        }
         // Ground
-        texturesMap.put(Constants.GROUND_ASSETS_ID,
-                new TextureRegion(new Texture(Gdx.files.internal(Constants.GROUND_IMAGE_PATH))));
+        Texture ground=new Texture(Gdx.files.internal(config.getGroundImage()));
+        ground.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        TextureRegion  textureRegion=new TextureRegion(ground, (int) (ground.getWidth() * Constants.GROUND_WIDTH),ground.getHeight() * 2);
 
-        textureAtlas = new TextureAtlas(Constants.SPRITES_ATLAS_PATH);
+        texturesMap.put(Constants.GROUND_ASSETS_ID,textureRegion);
+
+        if(!config.getLogo().isEmpty()) {
+            Texture logo = new Texture(Gdx.files.internal(config.getLogo()));
+            TextureRegion logoTextureRegion = new TextureRegion(logo);
+            texturesMap.put(Constants.LOGO_ASSETS_ID, logoTextureRegion);
+        }
 
         // Runner
-        texturesMap.put(Constants.RUNNER_JUMPING_ASSETS_ID,
-                textureAtlas.findRegion(Constants.RUNNER_JUMPING_REGION_NAME));
-        texturesMap.put(Constants.RUNNER_DODGING_ASSETS_ID,
-                textureAtlas.findRegion(Constants.RUNNER_DODGING_REGION_NAME));
-        texturesMap.put(Constants.RUNNER_HIT_ASSETS_ID,
-                textureAtlas.findRegion(Constants.RUNNER_HIT_REGION_NAME));
-        animationsMap.put(Constants.RUNNER_RUNNING_ASSETS_ID, createAnimation(textureAtlas,
-                Constants.RUNNER_RUNNING_REGION_NAMES));
+       /* texturesMap.put(Constants.RUNNER_JUMPING_ASSETS_ID,
+                textureAtlas.findRegion(Constants.RUNNER_JUMPING_REGION_NAME));*/
 
-        // Enemies
-        animationsMap.put(Constants.RUNNING_SMALL_ENEMY_ASSETS_ID, createAnimation(textureAtlas,
-                Constants.RUNNING_SMALL_ENEMY_REGION_NAMES));
-        animationsMap.put(Constants.RUNNING_BIG_ENEMY_ASSETS_ID, createAnimation(textureAtlas,
-                Constants.RUNNING_BIG_ENEMY_REGION_NAMES));
-        animationsMap.put(Constants.RUNNING_LONG_ENEMY_ASSETS_ID, createAnimation(textureAtlas,
-                Constants.RUNNING_LONG_ENEMY_REGION_NAMES));
-        animationsMap.put(Constants.RUNNING_WIDE_ENEMY_ASSETS_ID, createAnimation(textureAtlas,
-                Constants.RUNNING_WIDE_ENEMY_REGION_NAMES));
-        animationsMap.put(Constants.FLYING_SMALL_ENEMY_ASSETS_ID, createAnimation(textureAtlas,
-                Constants.FLYING_SMALL_ENEMY_REGION_NAMES));
-        animationsMap.put(Constants.FLYING_WIDE_ENEMY_ASSETS_ID, createAnimation(textureAtlas,
-                Constants.FLYING_WIDE_ENEMY_REGION_NAMES));
+        animationsMap.put(Constants.RUNNER_RUNNING_ASSETS_ID, createAnimation(config.getRunnerRunningAnimation()));
+        animationsMap.put(Constants.RUNNER_JUMPING_ASSETS_ID, createAnimation(config.getRunnerJumpAnimation()));
+        animationsMap.put(Constants.RUNNER_DODGING_ASSETS_ID, createAnimation(config.getRunnerSlideAnimation()));
+        animationsMap.put(Constants.RUNNER_HIT_ASSETS_ID, createAnimation(config.getRunnerDeadAnimation()));
 
+        for (ConfigEnemy configEnemy: config.getConfigEnemies()) {
+            animationsMap.put(configEnemy.getId(), createAnimation(configEnemy.getAnimation()));
+        }
+
+        animationsMap.put(Constants.COIN_ASSETS_ID, createAnimation(config.getCoinAnimation()));
         // Tutorial
         texturesMap.put(Constants.TUTORIAL_LEFT_REGION_NAME,
-                textureAtlas.findRegion(Constants.TUTORIAL_LEFT_REGION_NAME));
+                new TextureRegion(new Texture(Gdx.files.internal(config.getHintLeft()))));
         texturesMap.put(Constants.TUTORIAL_RIGHT_REGION_NAME,
-                textureAtlas.findRegion(Constants.TUTORIAL_RIGHT_REGION_NAME));
+                new TextureRegion(new Texture(Gdx.files.internal(config.getHintRight()))));
+
 
         // Fonts
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Constants.FONT_NAME));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(config.getFont()));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 36;
         smallFont = generator.generateFont(parameter);
-        smallFont.setColor(.21f, .22f, .21f, 1f);
+        smallFont.setColor(Color.valueOf(ConfigLoader.getConfig().getAccentColor()));
+
         parameter.size = 72;
         largeFont = generator.generateFont(parameter);
-        largeFont.setColor(.21f, .22f, .21f, 1f);
+        largeFont.setColor(Color.valueOf(ConfigLoader.getConfig().getPrimaryColor()));
+
         parameter.size = 24;
         smallestFont = generator.generateFont(parameter);
-        smallestFont.setColor(.21f, .22f, .21f, 1f);
+        smallestFont.setColor(Color.valueOf(ConfigLoader.getConfig().getAccentColor()));
+
         generator.dispose();
 
     }
@@ -103,6 +112,21 @@ public class AssetsManager {
 
     public static Animation getAnimation(String key) {
         return animationsMap.get(key);
+    }
+
+    private static Animation createAnimation(List<String> texturePaths) {
+
+        TextureRegion[] runningFrames = new TextureRegion[texturePaths.size()];
+
+        for (int i = 0; i < texturePaths.size(); i++) {
+            String path = texturePaths.get(i);
+            Texture texture=new Texture(Gdx.files.internal(path));
+            texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+            TextureRegion textureRegion=new TextureRegion(texture, texture.getWidth(), texture.getHeight());
+            runningFrames[i] = textureRegion;
+        }
+        return new Animation(0.05f, runningFrames);
+
     }
 
     private static Animation createAnimation(TextureAtlas textureAtlas, String[] regionNames) {
@@ -118,10 +142,6 @@ public class AssetsManager {
 
     }
 
-    public static TextureAtlas getTextureAtlas() {
-        return textureAtlas;
-    }
-
     public static BitmapFont getSmallFont() {
         return smallFont;
     }
@@ -135,7 +155,6 @@ public class AssetsManager {
     }
 
     public static void dispose() {
-        textureAtlas.dispose();
         smallestFont.dispose();
         smallFont.dispose();
         largeFont.dispose();

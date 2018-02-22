@@ -1,0 +1,266 @@
+{
+  "runnerRunningAnimation": [
+    {
+      "path": "runner\/Run__000.png"
+    },
+    {
+      "path": "runner\/Run__001.png"
+    },
+    {
+      "path": "runner\/Run__002.png"
+    },
+    {
+      "path": "runner\/Run__003.png"
+    },
+    {
+      "path": "runner\/Run__004.png"
+    },
+    {
+      "path": "runner\/Run__005.png"
+    },
+    {
+      "path": "runner\/Run__006.png"
+    },
+    {
+      "path": "runner\/Run__007.png"
+    },
+    {
+      "path": "runner\/Run__008.png"
+    },
+    {
+      "path": "runner\/Run__009.png"
+    }
+  ],
+  "runnerJumpAnimation": [
+    {
+      "path": "runner\/Jump__000.png"
+    }
+  ],
+  "runnerSlideAnimation": [
+    {
+      "path": "runner\/Slide__000.png"
+    },
+    {
+      "path": "runner\/Slide__001.png"
+    },
+    {
+      "path": "runner\/Slide__002.png"
+    },
+    {
+      "path": "runner\/Slide__003.png"
+    },
+    {
+      "path": "runner\/Slide__004.png"
+    },
+    {
+      "path": "runner\/Slide__005.png"
+    },
+    {
+      "path": "runner\/Slide__006.png"
+    },
+    {
+      "path": "runner\/Slide__007.png"
+    },
+    {
+      "path": "runner\/Slide__008.png"
+    },
+    {
+      "path": "runner\/Slide__009.png"
+    }
+  ],
+  "runnerDeadAnimation": [
+    {
+      "path": "runner\/Dead__000.png"
+    }
+  ],
+  "coinAnimation": [
+    {
+      "path": "coin.png"
+    }
+  ],
+  "enemies": [
+    {
+      "id": "monster1",
+      "width": 1,
+      "height": 1,
+      "y-index": 1,
+      "animation": [
+        {
+          "path": "uploaded_data\/monster-1-frame-1.png"
+        },
+        {
+          "path": "uploaded_data\/monster-1-frame-1.png"
+        },
+        {
+          "path": "uploaded_data\/monster-1-frame-1.png"
+        },
+        {
+          "path": "uploaded_data\/monster-1-frame-2.png"
+        },
+        {
+          "path": "uploaded_data\/monster-1-frame-2.png"
+        },
+        {
+          "path": "uploaded_data\/monster-1-frame-2.png"
+        }
+      ]
+    },
+    {
+      "id": "ufo",
+      "width": 2,
+      "height": 1,
+      "y-index": 2.5,
+      "animation": [
+        {
+          "path": "uploaded_data\/ufo.png"
+        }
+      ]
+    },
+    {
+      "id": "spike",
+      "width": 1,
+      "height": 2,
+      "y-index": 1,
+      "animation": [
+        {
+          "path": "uploaded_data\/spike.png"
+        }
+      ]
+    },
+    {
+      "id": "spikeA",
+      "width": 2,
+      "height": 1,
+      "y-index": 1,
+      "animation": [
+        {
+          "path": "uploaded_data\/spikeA.png"
+        }
+      ]
+    },
+    {
+      "id": "spikeB",
+      "width": 2,
+      "height": 1,
+      "y-index": 1,
+      "animation": [
+        {
+          "path": "uploaded_data\/spikeB.png"
+        }
+      ]
+    },
+    {
+      "id": "monster2",
+      "width": 2,
+      "height": 2,
+      "y-index": 1,
+      "animation": [
+        {
+          "path": "uploaded_data\/monster-2frame-1.png"
+        },
+        {
+          "path": "uploaded_data\/monster-2frame-1.png"
+        },
+        {
+          "path": "uploaded_data\/monster-2frame-1.png"
+        },
+        {
+          "path": "uploaded_data\/monster-2frame-2.png"
+        },
+        {
+          "path": "uploaded_data\/monster-2frame-2.png"
+        },
+        {
+          "path": "uploaded_data\/monster-2frame-2.png"
+        }
+      ]
+    }
+  ],
+  "backgroundLayers": [
+    {
+      "id": "layer1",
+      "path": "background\/background_layer_1.png",
+      "speedPercentage": 0
+    },
+    {
+      "id": "layer2",
+      "path": "background\/background_layer_2.png",
+      "speedPercentage": 0
+    },
+    {
+      "id": "layer3",
+      "path": "background\/background_layer_3.png",
+      "speedPercentage": 0
+    },
+    {
+      "id": "layer4",
+      "path": "background\/background_layer_4.png",
+      "speedPercentage": 0
+    }
+  ],
+  "groundImage": "ground.png",
+  "font": "Bubblegum.ttf",
+  "jumpSound": "jump.wav",
+  "hitSound": "hit.wav",
+  "coinSound": "coin.wav",
+  "music": "DefenseLine.mp3",
+  "hintLeft": "uploaded_data\/slide.png",
+  "hintRight": "uploaded_data\/jump.png",
+  "startButton": {
+    "imagePath": "uploaded_data\/play.png",
+    "clickedImagePath": "",
+    "x": 12.5,
+    "y": 4,
+    "width": 5,
+    "height": 5
+  },
+  "musicButton": {
+    "imagePath": "uploaded_data\/music.png",
+    "clickedImagePath": "",
+    "x": 1,
+    "y": 11.5,
+    "width": 1.5,
+    "height": 1.5
+  },
+  "soundButton": {
+    "imagePath": "uploaded_data\/sound_on.png",
+    "clickedImagePath": "uploaded_data\/sound_off.png",
+    "x": 1,
+    "y": 9.5,
+    "width": 1.5,
+    "height": 1.5
+  },
+  "shareButton": {
+    "imagePath": "uploaded_data\/share.png",
+    "clickedImagePath": "",
+    "x": 17,
+    "y": 4,
+    "width": 3,
+    "height": 3
+  },
+  "pauseButton": {
+    "imagePath": "uploaded_data\/play.png",
+    "clickedImagePath": "uploaded_data\/pause.png",
+    "x": 1,
+    "y": 7.5,
+    "width": 1.5,
+    "height": 1.5
+  },
+  "aboutButton": {
+    "imagePath": "uploaded_data\/about.png",
+    "clickedImagePath": "",
+    "x": 1,
+    "y": 13.5,
+    "width": 1.5,
+    "height": 1.5
+  },
+  "logo": "",
+  "name": "My Super Runner",
+  "template": "fiveWord",
+  "icon": "uploaded_data\/icon.png",
+  "themeColors": {
+    "colorPrimary": "#27562d",
+    "colorPrimaryDark": "#a80c26",
+    "colorAccent": "#448aff"
+  }
+}

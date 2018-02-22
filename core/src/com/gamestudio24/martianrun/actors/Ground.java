@@ -57,6 +57,7 @@ public class Ground extends GameActor {
 
         if (leftBoundsReached(delta)) {
             resetBounds();
+            updateXBounds(-delta);
         } else {
             updateXBounds(-delta);
         }
@@ -72,18 +73,16 @@ public class Ground extends GameActor {
     }
 
     private boolean leftBoundsReached(float delta) {
-        return (textureRegionBounds2.x - transformToScreen(delta * speed)) <= 0;
+        return (textureRegionBounds2.x - transformToScreen(delta * Math.abs(getUserData().getLinearVelocity().x))) <= 0;
     }
 
     private void updateXBounds(float delta) {
-        textureRegionBounds1.x += transformToScreen(delta * speed);
-        textureRegionBounds2.x += transformToScreen(delta * speed);
+        textureRegionBounds1.x += transformToScreen(delta * Math.abs(getUserData().getLinearVelocity().x));
+        textureRegionBounds2.x += transformToScreen(delta * Math.abs(getUserData().getLinearVelocity().x));
     }
 
     private void resetBounds() {
         textureRegionBounds1 = textureRegionBounds2;
-        textureRegionBounds2 = new Rectangle(textureRegionBounds1.x + screenRectangle.width, 0, screenRectangle.width,
-                screenRectangle.height);
+        textureRegionBounds2 = new Rectangle(Constants.APP_WIDTH + textureRegionBounds1.x, 0, Constants.APP_WIDTH, Constants.APP_HEIGHT);
     }
-
 }

@@ -17,11 +17,12 @@
 package com.gamestudio24.martianrun.actors.menu;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.gamestudio24.martianrun.config.ConfigLoader;
 import com.gamestudio24.martianrun.enums.GameState;
 import com.gamestudio24.martianrun.utils.Constants;
 import com.gamestudio24.martianrun.utils.GameManager;
 
-public class AboutButton extends GameButton {
+public class AboutButton extends ImageGameButton {
 
     public interface AboutButtonListener {
         public void onAbout();
@@ -36,8 +37,7 @@ public class AboutButton extends GameButton {
 
     @Override
     protected String getRegionName() {
-        return GameManager.getInstance().getGameState() == GameState.ABOUT ? Constants.CLOSE_REGION_NAME :
-                Constants.ABOUT_REGION_NAME;
+        return ConfigLoader.getConfig().getAboutButton().getImagePath();
     }
 
     @Override

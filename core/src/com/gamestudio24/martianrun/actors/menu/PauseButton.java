@@ -17,11 +17,12 @@
 package com.gamestudio24.martianrun.actors.menu;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.gamestudio24.martianrun.config.ConfigLoader;
 import com.gamestudio24.martianrun.enums.GameState;
 import com.gamestudio24.martianrun.utils.Constants;
 import com.gamestudio24.martianrun.utils.GameManager;
 
-public class PauseButton extends GameButton {
+public class PauseButton extends ImageGameButton {
 
     public interface PauseButtonListener {
         public void onPause();
@@ -38,7 +39,8 @@ public class PauseButton extends GameButton {
 
     @Override
     protected String getRegionName() {
-        return GameManager.getInstance().getGameState() == GameState.PAUSED ? Constants.PLAY_REGION_NAME : Constants.PAUSE_REGION_NAME;
+        return GameManager.getInstance().getGameState() == GameState.PAUSED ? ConfigLoader.getConfig().getPauseButton().getImagePath()
+                : ConfigLoader.getConfig().getPauseButton().getClickedImagePath();
     }
 
     @Override

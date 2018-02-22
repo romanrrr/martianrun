@@ -17,16 +17,17 @@
 package com.gamestudio24.martianrun.actors.menu;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.gamestudio24.martianrun.config.ConfigLoader;
 import com.gamestudio24.martianrun.utils.AudioUtils;
 
-public class MusicButton extends GameButton {
+public class MusicButton extends ImageGameButton {
 
     public MusicButton(Rectangle bounds) {
         super(bounds);
     }
 
     protected String getRegionName() {
-        return AudioUtils.getInstance().getMusicRegionName();
+        return ConfigLoader.getConfig().getMusicButton().getImagePath();
     }
 
     public void touched() {

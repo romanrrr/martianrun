@@ -3,13 +3,12 @@ def loadProperty(name) {
 }
 
 android {
-    buildToolsVersion "21.1.2"
-    compileSdkVersion 21
-
+    buildToolsVersion '26.0.2'
+    compileSdkVersion 26
     defaultConfig {
         applicationId "com.gamestudio24.cityescape.android"
-        targetSdkVersion 21
-        minSdkVersion 9
+        targetSdkVersion 26
+        minSdkVersion 14
         versionCode 21
         versionName "1.5.1"
     }
@@ -23,6 +22,7 @@ android {
             renderscript.srcDirs = ['src']
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
+            jniLibs.srcDir 'libs'
         }
 
         instrumentTest.setRoot('tests')
@@ -44,11 +44,6 @@ android {
     }
 }
 
-// needed to add JNI shared libraries to APK when compiling on CLI
-tasks.withType(com.android.build.gradle.tasks.PackageApplication) { pkgTask ->
-    pkgTask.jniFolders = new HashSet<File>()
-    pkgTask.jniFolders.add(new File(projectDir, 'libs'))
-}
 
 // called every time gradle gets executed, takes the native dependencies of
 // the natives configuration, and extracts them to the proper libs/ folders
