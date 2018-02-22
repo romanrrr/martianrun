@@ -185,17 +185,17 @@
     {
       "id": "layer2",
       "path": "background\/background_layer_2.png",
-      "speedPercentage": 0
+      "speedPercentage": 30
     },
     {
       "id": "layer3",
       "path": "background\/background_layer_3.png",
-      "speedPercentage": 0
+      "speedPercentage": 60
     },
     {
       "id": "layer4",
       "path": "background\/background_layer_4.png",
-      "speedPercentage": 0
+      "speedPercentage": 100
     }
   ],
   "groundImage": "ground.png",
