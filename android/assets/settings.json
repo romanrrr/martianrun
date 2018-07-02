@@ -80,9 +80,9 @@
   ],
   "enemies": [
     {
-      "width": 1,
-      "height": 1,
-      "y-index": 1,
+      "enemyWidth": 1,
+      "enemyHeight": 1,
+      "enemyYIndex": 1,
       "animation": [
         {
           "path": "uploaded_data\/monster-1-frame-1.png"
@@ -107,7 +107,7 @@
     {
       "width": 2,
       "height": 1,
-      "y-index": 2.5,
+      "yIndex": 2.5,
       "animation": [
         {
           "path": "uploaded_data\/ufo.png"
@@ -117,7 +117,7 @@
     {
       "width": 1,
       "height": 2,
-      "y-index": 1,
+      "yIndex": 1,
       "animation": [
         {
           "path": "uploaded_data\/spike.png"
@@ -127,7 +127,7 @@
     {
       "width": 2,
       "height": 1,
-      "y-index": 1,
+      "yIndex": 1,
       "animation": [
         {
           "path": "uploaded_data\/spikeA.png"
@@ -137,7 +137,7 @@
     {
       "width": 2,
       "height": 1,
-      "y-index": 1,
+      "yIndex": 1,
       "animation": [
         {
           "path": "uploaded_data\/spikeB.png"
@@ -147,7 +147,7 @@
     {
       "width": 2,
       "height": 2,
-      "y-index": 1,
+      "yIndex": 1,
       "animation": [
         {
           "path": "uploaded_data\/monster-2frame-1.png"
@@ -172,19 +172,19 @@
   ],
   "backgroundLayers": [
     {
-      "path": "background\/background_layer_1.png",
+      "layerImage": "background\/background_layer_1.png",
       "speedPercentage": 0
     },
     {
-      "path": "background\/background_layer_2.png",
+      "layerImage": "background\/background_layer_2.png",
       "speedPercentage": 30
     },
     {
-      "path": "background\/background_layer_3.png",
+      "layerImage": "background\/background_layer_3.png",
       "speedPercentage": 60
     },
     {
-      "path": "background\/background_layer_4.png",
+      "layerImage": "background\/background_layer_4.png",
       "speedPercentage": 100
     }
   ],
@@ -196,55 +196,21 @@
   "music": "DefenseLine.mp3",
   "hintLeft": "uploaded_data\/slide.png",
   "hintRight": "uploaded_data\/jump.png",
-  "startButton": {
-    "imagePath": "uploaded_data\/play.png",
-    "clickedImagePath": "",
-    "x": 12.5,
-    "y": 4,
-    "width": 5,
-    "height": 5
-  },
-  "musicButton": {
-    "imagePath": "uploaded_data\/music.png",
-    "clickedImagePath": "",
-    "x": 1,
-    "y": 11.5,
-    "width": 1.5,
-    "height": 1.5
-  },
-  "soundButton": {
-    "imagePath": "uploaded_data\/sound_on.png",
-    "clickedImagePath": "uploaded_data\/sound_off.png",
-    "x": 1,
-    "y": 9.5,
-    "width": 1.5,
-    "height": 1.5
-  },
-  "shareButton": {
-    "imagePath": "uploaded_data\/share.png",
-    "clickedImagePath": "",
-    "x": 17,
-    "y": 4,
-    "width": 3,
-    "height": 3
-  },
-  "pauseButton": {
-    "imagePath": "uploaded_data\/play.png",
-    "clickedImagePath": "uploaded_data\/pause.png",
-    "x": 1,
-    "y": 7.5,
-    "width": 1.5,
-    "height": 1.5
-  },
-  "aboutButton": {
-    "imagePath": "uploaded_data\/about.png",
-    "clickedImagePath": "",
-    "x": 1,
-    "y": 13.5,
-    "width": 1.5,
-    "height": 1.5
-  },
+
+
+  "startButtonImage": "uploaded_data\/play.png",
+  "musicButtonImage": "uploaded_data\/music.png",
+  "soundButtonImage": "uploaded_data\/sound_on.png",
+  "soundOffButtonImage": "uploaded_data\/sound_off.png",
+  "shareButtonImage": "uploaded_data\/share.png",
+
+  "playButtonImage": "uploaded_data\/play.png",
+  "pauseButtonImage": "uploaded_data\/pause.png",
+
+  "aboutButtonImage": "uploaded_data\/about.png",
+
   "logo": "",
+
   "name": "My Super Runner",
   "template": "fiveWord",
   "icon": "uploaded_data\/icon.png",

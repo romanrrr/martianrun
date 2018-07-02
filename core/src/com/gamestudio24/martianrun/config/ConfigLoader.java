@@ -64,9 +64,9 @@ public class ConfigLoader {
             for (JsonValue item : base.get("enemies")) {
                 ConfigEnemy configEnemy = new ConfigEnemy();
                 configEnemy.setId("enemy"+id++);
-                configEnemy.setHeight(item.getInt("height"));
-                configEnemy.setWidth(item.getInt("width"));
-                configEnemy.setYindex(item.getFloat("y-index") + 0.5f);
+                configEnemy.setHeight(item.getInt("enemyHeight"));
+                configEnemy.setWidth(item.getInt("enemyWidth"));
+                configEnemy.setYindex(item.getFloat("enemyYIndex") + 0.5f);
 
                 List<String> animation = new ArrayList<String>();
                 for (JsonValue animationItem : item.get("animation")) {
@@ -82,7 +82,7 @@ public class ConfigLoader {
             for (JsonValue item : base.get("backgroundLayers")) {
                 ConfigBackground configBackground = new ConfigBackground();
                 configBackground.setId("background"+id++);
-                configBackground.setLayerPath(item.getString("path"));
+                configBackground.setLayerPath(item.getString("layerImage"));
                 configBackground.setSpeedPercentage(item.getInt("speedPercentage"));
                 configBackgroundList.add(configBackground);
             }
@@ -99,25 +99,59 @@ public class ConfigLoader {
             config.setFont(base.getString("font"));
 
 
-            config.setStartButton(readButton(base.get("startButton")));
-            config.setMusicButton(readButton(base.get("musicButton")));
-            config.setSoundButton(readButton(base.get("soundButton")));
-            config.setShareButton(readButton(base.get("shareButton")));
-            config.setPauseButton(readButton(base.get("pauseButton")));
-            config.setAboutButton(readButton(base.get("aboutButton")));
+            ConfigButton startButton = new ConfigButton();
+            startButton.setX(12.5f);
+            startButton.setY(4f);
+            startButton.setWidth(5);
+            startButton.setHeight(5);
+            startButton.setImagePath(base.getString("startButtonImage"));
+            config.setStartButton(startButton);
+
+            ConfigButton musicButton = new ConfigButton();
+            musicButton.setX(1f);
+            musicButton.setY(11.5f);
+            musicButton.setWidth(1.5f);
+            musicButton.setHeight(1.5f);
+            musicButton.setImagePath(base.getString("musicButtonImage"));
+            config.setMusicButton(musicButton);
+
+            ConfigButton soundButton = new ConfigButton();
+            soundButton.setX(1f);
+            soundButton.setY(9.5f);
+            soundButton.setWidth(1.5f);
+            soundButton.setHeight(1.5f);
+            soundButton.setImagePath(base.getString("soundButtonImage"));
+            soundButton.setClickedImagePath(base.getString("soundOffButtonImage"));
+            config.setSoundButton(soundButton);
+
+            ConfigButton shareButton = new ConfigButton();
+            shareButton.setX(17f);
+            shareButton.setY(4f);
+            shareButton.setWidth(3f);
+            shareButton.setHeight(3f);
+            shareButton.setImagePath(base.getString("shareButtonImage"));
+            config.setShareButton(shareButton);
+
+
+            ConfigButton pauseButton = new ConfigButton();
+            pauseButton.setX(1f);
+            pauseButton.setY(7.5f);
+            pauseButton.setWidth(1.5f);
+            pauseButton.setHeight(1.5f);
+            pauseButton.setImagePath(base.getString("playButtonImage"));
+            pauseButton.setClickedImagePath(base.getString("pauseButtonImage"));
+            config.setPauseButton(pauseButton);
+
+
+            ConfigButton aboutButton = new ConfigButton();
+            aboutButton.setX(1f);
+            aboutButton.setY(13.5f);
+            aboutButton.setWidth(1.5f);
+            aboutButton.setHeight(1.5f);
+            aboutButton.setImagePath(base.getString("aboutButtonImage"));
+            config.setAboutButton(aboutButton);
 
         }
         return config;
-    }
-
-    private static ConfigButton readButton(JsonValue jsonButton){
-        ConfigButton configButton = new ConfigButton();
-        configButton.setImagePath(jsonButton.getString("imagePath"));
-        configButton.setClickedImagePath(jsonButton.getString("clickedImagePath"));
-        configButton.setX(jsonButton.getFloat("x"));
-        configButton.setY(jsonButton.getFloat("y"));
-        configButton.setWidth(jsonButton.getFloat("width"));
-        configButton.setHeight(jsonButton.getFloat("height"));
-        return configButton;
     }
 }

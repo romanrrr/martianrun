@@ -22,7 +22,7 @@ public class Config {
 
     private String groundImage;
 
-    private String font;
+    private String font = "Bubblegum.ttf";
 
     private List<String> runnerRunningAnimation;
     private List<String> runnerJumpAnimation;
@@ -41,10 +41,10 @@ public class Config {
     private List<ConfigEnemy> configEnemies;
     private List<ConfigBackground> configBackgroundList;
 
-    private String coinSound;
-    private String jumpSound;
-    private String hitSound;
-    private String music;
+    private String coinSound ="coin.wav";
+    private String jumpSound="jump.wav";
+    private String hitSound="hit.wav";
+    private String music="DefenseLine.mp3";
 
     public List<String> getRunnerRunningAnimation() {
         return runnerRunningAnimation;
