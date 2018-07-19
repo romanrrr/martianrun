@@ -17,9 +17,6 @@ public class Config {
     private String primaryColor;
     private String accentColor;
 
-    private String hintLeft;
-    private String hintRight;
-
     private String groundImage;
 
     private String font = "Bubblegum.ttf";
@@ -212,22 +209,6 @@ public class Config {
 
     public void setAboutButton(ConfigButton aboutButton) {
         this.aboutButton = aboutButton;
-    }
-
-    public String getHintLeft() {
-        return hintLeft;
-    }
-
-    public void setHintLeft(String hintLeft) {
-        this.hintLeft = hintLeft;
-    }
-
-    public String getHintRight() {
-        return hintRight;
-    }
-
-    public void setHintRight(String hintRight) {
-        this.hintRight = hintRight;
     }
 
     public String getGroundImage() {

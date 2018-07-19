@@ -78,6 +78,7 @@ project(":android") {
         compile 'com.android.support:cardview-v7:26.0.1'
         compile 'com.android.support:design:26.0.1'
         compile 'com.danikula:videocache:2.7.0'
+        compile 'com.android.support:multidex:1.0.1'
     }
 }
 

@@ -93,8 +93,7 @@ public class ConfigLoader {
             config.setHitSound(base.getString("hitSound"));
             config.setMusic(base.getString("music"));
 
-            config.setHintLeft(base.getString("hintLeft"));
-            config.setHintRight(base.getString("hintRight"));
+
             config.setGroundImage(base.getString("groundImage"));
             config.setFont(base.getString("font"));
 

@@ -29,15 +29,19 @@ import com.gamestudio24.martianrun.utils.GameManager;
 
 public class Tutorial extends Actor {
 
-    private TextureRegion textureRegion;
+    private TextureRegion obstacleTextureRegion;
+    private TextureRegion runnerTextureRegion;
     private Rectangle bounds;
     private BitmapFont font;
     private String text;
+    private boolean jump;
 
-    public Tutorial(Rectangle bounds, String assetsId, String text) {
+    public Tutorial(Rectangle bounds, String obstacleAssetId, String playerAssetId,String text, boolean jump) {
         this.bounds = bounds;
+        this.jump = jump;
         this.text = text;
-        textureRegion = AssetsManager.getTextureRegion(assetsId);
+        obstacleTextureRegion = AssetsManager.getTextureRegion(obstacleAssetId);
+        runnerTextureRegion = AssetsManager.getTextureRegion(playerAssetId);
         SequenceAction sequenceAction = new SequenceAction();
         sequenceAction.addAction(Actions.delay(4f));
         sequenceAction.addAction(Actions.removeActor());
@@ -58,7 +62,14 @@ public class Tutorial extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        batch.draw(textureRegion, bounds.x, bounds.y, bounds.width, bounds.height);
+        float unit = bounds.width / 4;
+        if(jump) {
+            batch.draw(obstacleTextureRegion, bounds.x + unit * 2, bounds.y, unit * 2, unit);
+            batch.draw(runnerTextureRegion, bounds.x + unit * 1.5f, bounds.y + unit * 1.5f, unit, unit * 1.5f);
+        }else {
+            batch.draw(obstacleTextureRegion, bounds.x + unit, bounds.y + unit, unit * 2, unit);
+            batch.draw(runnerTextureRegion, bounds.x + unit, bounds.y, unit, unit);
+        }
         font.drawWrapped(batch, text, bounds.x, bounds.y, bounds.width,
                 BitmapFont.HAlignment.CENTER);
     }

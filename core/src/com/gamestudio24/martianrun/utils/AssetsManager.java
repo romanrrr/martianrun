@@ -81,10 +81,18 @@ public class AssetsManager {
 
         animationsMap.put(Constants.COIN_ASSETS_ID, createAnimation(config.getCoinAnimation()));
         // Tutorial
-        texturesMap.put(Constants.TUTORIAL_LEFT_REGION_NAME,
-                new TextureRegion(new Texture(Gdx.files.internal(config.getHintLeft()))));
-        texturesMap.put(Constants.TUTORIAL_RIGHT_REGION_NAME,
-                new TextureRegion(new Texture(Gdx.files.internal(config.getHintRight()))));
+        texturesMap.put(Constants.TUTORIAL_BOX_NAME,
+                new TextureRegion(new Texture(Gdx.files.internal("2box.png"))));
+
+        Texture runnerSlideHint=new Texture(Gdx.files.internal(ConfigLoader.getConfig().getRunnerSlideAnimation().get(ConfigLoader.getConfig().getRunnerSlideAnimation().size() -1)));
+        runnerSlideHint.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
+        TextureRegion  runnerSlideHintTextureRegion=new TextureRegion(runnerSlideHint);
+        texturesMap.put(Constants.RUNNER_DODGING_HINT, runnerSlideHintTextureRegion);
+
+        Texture runnerJumpHint=new Texture(Gdx.files.internal(ConfigLoader.getConfig().getRunnerJumpAnimation().get(ConfigLoader.getConfig().getRunnerJumpAnimation().size() -1)));
+        runnerJumpHint.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
+        TextureRegion  runnerJumpHintTextureRegion=new TextureRegion(runnerJumpHint);
+        texturesMap.put(Constants.RUNNER_JUMPING_HINT, runnerJumpHintTextureRegion);
 
 
         // Fonts

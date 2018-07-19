@@ -60,6 +60,9 @@ public class Constants {
     public static final String RUNNER_HIT_ASSETS_ID = "runner_hit";
     public static final String RUNNER_JUMPING_ASSETS_ID = "runner_jumping";
 
+    public static final String RUNNER_DODGING_HINT = "runner_dodging_hint";
+    public static final String RUNNER_JUMPING_HINT = "runner_jumping_hint";
+
     public static final String COIN_ASSETS_ID = "coin_body";
 
     public static final String SOUND_ON_REGION_NAME = "sound_on";
@@ -74,8 +77,7 @@ public class Constants {
     public static final String SHARE_REGION_NAME = "share";
     public static final String ACHIEVEMENTS_REGION_NAME = "star";
 
-    public static final String TUTORIAL_LEFT_REGION_NAME = "tutorial_left";
-    public static final String TUTORIAL_RIGHT_REGION_NAME = "tutorial_right";
+    public static final String TUTORIAL_BOX_NAME = "tutorial_box";
     public static final String TUTORIAL_LEFT_TEXT = "\nTap left to dodge";
     public static final String TUTORIAL_RIGHT_TEXT = "\nTap right to jump";
 

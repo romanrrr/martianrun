@@ -35,6 +35,7 @@ import com.gamestudio24.martianrun.actors.*;
 import com.gamestudio24.martianrun.actors.menu.*;
 import com.gamestudio24.martianrun.box2d.InterractionUserData;
 import com.gamestudio24.martianrun.box2d.UserData;
+import com.gamestudio24.martianrun.config.Config;
 import com.gamestudio24.martianrun.config.ConfigBackground;
 import com.gamestudio24.martianrun.config.ConfigButton;
 import com.gamestudio24.martianrun.config.ConfigLoader;
@@ -303,8 +304,8 @@ public class GameStage extends Stage implements ContactListener {
         float x = getCamera().viewportWidth / 4 - width / 2;
         Rectangle leftTutorialBounds = new Rectangle(x, getCamera().viewportHeight * 9 / 20, width,
                 width);
-        addActor(new Tutorial(leftTutorialBounds, Constants.TUTORIAL_LEFT_REGION_NAME,
-                Constants.TUTORIAL_LEFT_TEXT));
+        addActor(new Tutorial(leftTutorialBounds, Constants.TUTORIAL_BOX_NAME, Constants.RUNNER_DODGING_HINT,
+                Constants.TUTORIAL_LEFT_TEXT, false));
     }
 
     private void setUpRightTutorial() {
@@ -312,8 +313,8 @@ public class GameStage extends Stage implements ContactListener {
         float x = getCamera().viewportWidth * 3 / 4 - width / 2;
         Rectangle rightTutorialBounds = new Rectangle(x, getCamera().viewportHeight * 9 / 20, width,
                 width);
-        addActor(new Tutorial(rightTutorialBounds, Constants.TUTORIAL_RIGHT_REGION_NAME,
-                Constants.TUTORIAL_RIGHT_TEXT));
+        addActor(new Tutorial(rightTutorialBounds, Constants.TUTORIAL_BOX_NAME, Constants.RUNNER_JUMPING_HINT,
+                Constants.TUTORIAL_RIGHT_TEXT, true));
     }
 
     @Override
