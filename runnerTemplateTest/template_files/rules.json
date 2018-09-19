@@ -1,0 +1,184 @@
+{
+  "enemiesImages": [
+    {
+      "nested_object": [
+        {
+          "preVideo": "string",
+          "runnerRunningAnimationImage": [
+            "required",
+            {
+              "list_of_objects": [
+                {
+                  "runnerRunningAnimation": [
+                    "required",
+                    {
+                      "list_of_objects": [
+                        {
+                          "path": "required",
+                          "thumb": "required"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "runnerJumpAnimationImage": [
+            "required",
+            {
+              "list_of_objects": [
+                {
+                  "runnerJumpAnimation": [
+                    "required",
+                    {
+                      "list_of_objects": [
+                        {
+                          "path": "required",
+                          "thumb": "required"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "runnerSlideAnimationImage": [
+            "required",
+            {
+              "list_of_objects": [
+                {
+                  "runnerSlideAnimation": [
+                    "required",
+                    {
+                      "list_of_objects": [
+                        {
+                          "path": "required",
+                          "thumb": "required"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "runnerDeadAnimationImage": [
+            "required",
+            {
+              "list_of_objects": [
+                {
+                  "runnerDeadAnimation": [
+                    "required",
+                    {
+                      "list_of_objects": [
+                        {
+                          "path": "required",
+                          "thumb": "required"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "coinAnimationImage": [
+            "required",
+            {
+              "list_of_objects": [
+                {
+                  "coinAnimation": [
+                    "required",
+                    {
+                      "list_of_objects": [
+                        {
+                          "path": "required",
+                          "thumb": "required"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "preEnemies": "string",
+          "enemies": [
+            "required",
+            {
+              "list_of_objects": [
+                {
+                  "enemyHeight": "not_empty",
+                  "enemyWidth": "not_empty",
+                  "enemyYIndex": "not_empty",
+                  "animation":[
+                    "required",
+                    {
+                      "list_of_objects": [
+                        {
+                          "path": "required",
+                          "thumb": "required"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "gameImages": [
+    {
+      "nested_object": [
+        {
+          "logo": "image",
+          "groundImage": [
+            "required",
+            "image"
+          ],
+          "preVideoBackground": "string",
+          "backgroundLayers": [
+            "required",
+            {
+              "list_of_objects": [
+                {
+                  "layerImage": [
+                    "required",
+                    "image"
+                  ],
+                  "speedPercentage": "not_empty"
+                }
+              ]
+            }
+          ],
+          "startButtonImage": "not_empty",
+          "musicButtonImage": "not_empty",
+          "soundButtonImage": "not_empty",
+          "soundOffButtonImage": "not_empty",
+          "playButtonImage": "not_empty",
+          "shareButtonImage": "not_empty",
+          "pauseButtonImage": "not_empty",
+          "aboutButtonImage": "not_empty"
+        }
+      ]
+    }
+  ],
+  "gameSounds": [
+    {
+      "nested_object": [
+        {
+          "font": "string",
+          "jumpSound": "string",
+          "hitSound": "string",
+          "coinSound": "string",
+          "music": "string"
+        }
+      ]
+    }
+  ]
+}

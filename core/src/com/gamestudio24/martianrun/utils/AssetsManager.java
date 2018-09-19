@@ -35,7 +35,7 @@ import java.util.List;
 public class AssetsManager {
 
     private static HashMap<String, TextureRegion> texturesMap = new HashMap<String, TextureRegion>();
-    private static HashMap<String, Animation> animationsMap = new HashMap<String, Animation>();
+    private static HashMap<String, Animation<TextureRegion>> animationsMap = new HashMap<String, Animation<TextureRegion>>();
     private static BitmapFont smallFont;
     private static BitmapFont smallestFont;
     private static BitmapFont largeFont;
@@ -96,6 +96,9 @@ public class AssetsManager {
 
 
         // Fonts
+        if(config.getFont().isEmpty()){
+            config.setFont("");
+        }
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(config.getFont()));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 36;
@@ -118,11 +121,11 @@ public class AssetsManager {
         return texturesMap.get(key);
     }
 
-    public static Animation getAnimation(String key) {
+    public static Animation<TextureRegion> getAnimation(String key) {
         return animationsMap.get(key);
     }
 
-    private static Animation createAnimation(List<String> texturePaths) {
+    private static Animation<TextureRegion> createAnimation(List<String> texturePaths) {
 
         TextureRegion[] runningFrames = new TextureRegion[texturePaths.size()];
 
@@ -133,7 +136,7 @@ public class AssetsManager {
             TextureRegion textureRegion=new TextureRegion(texture, texture.getWidth(), texture.getHeight());
             runningFrames[i] = textureRegion;
         }
-        return new Animation(0.05f, runningFrames);
+        return new Animation<TextureRegion>(0.05f, runningFrames);
 
     }
 
@@ -146,7 +149,7 @@ public class AssetsManager {
             runningFrames[i] = textureAtlas.findRegion(path);
         }
 
-        return new Animation(0.1f, runningFrames);
+        return new Animation<TextureRegion>(0.1f, runningFrames);
 
     }
 

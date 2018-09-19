@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Align;
 import com.gamestudio24.martianrun.actors.Score;
 import com.gamestudio24.martianrun.enums.GameState;
 import com.gamestudio24.martianrun.utils.AssetsManager;
@@ -54,10 +55,10 @@ public class ResultLabel extends Actor {
             if(newRecord){
                 stringBuilder.append(Constants.NEW_RECORD_LABEL).append("\n");
             }
-            stringBuilder.append(Constants.RESULT_SCORES_LABEL).append(score.getScore());
+            stringBuilder.append(Constants.RESULT_SCORES_LABEL).append(score.getScore()).append("\n");
+            stringBuilder.append(Constants.RESULT_MAX_SCORES_LABEL).append(score.getMaxScore()).append("\n");
 
-            font.drawWrapped(batch,stringBuilder , bounds.x, bounds.y, bounds.width,
-                    BitmapFont.HAlignment.CENTER);
+            font.draw(batch,stringBuilder , bounds.x, bounds.y, bounds.width, Align.center, true);
         }
     }
 

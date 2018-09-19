@@ -18,14 +18,17 @@ package com.gamestudio24.martianrun.stages;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -74,6 +77,7 @@ public class GameStage extends Stage implements ContactListener {
 
     private AboutButton aboutButton;
     private ShareButton shareButton;
+    private ExitButton exitButton;
 
     private ResultLabel resultLabel;
 
@@ -146,15 +150,20 @@ public class GameStage extends Stage implements ContactListener {
     }
 
     private void setUpScore() {
-        Rectangle scoreBounds = new Rectangle(getCamera().viewportWidth * 47 / 64,
-                getCamera().viewportHeight * 57 / 64  - getCamera().viewportHeight / 16 - 20, getCamera().viewportWidth / 4,
+
+        Rectangle maxScoreBounds = new Rectangle(0,
+                getCamera().viewportHeight * 57 / 64 - 20, getCamera().viewportWidth -10,
                 getCamera().viewportHeight / 8);
 
-        Rectangle multiplierBounds = new Rectangle(getCamera().viewportWidth * 47 / 64,
-                getCamera().viewportHeight * 57 / 64 - 20, getCamera().viewportWidth / 4,
+        Rectangle scoreBounds = new Rectangle(0,
+                getCamera().viewportHeight * 57 / 64  - getCamera().viewportHeight / 16 - 20, getCamera().viewportWidth - 10,
                 getCamera().viewportHeight / 8);
 
-        score = new Score(scoreBounds, multiplierBounds);
+        Rectangle multipleBounds = new Rectangle(0,
+                getCamera().viewportHeight * 57 / 64  - getCamera().viewportHeight / 16 - 50, getCamera().viewportWidth - 10,
+                getCamera().viewportHeight / 8);
+
+        score = new Score(scoreBounds, maxScoreBounds, multipleBounds);
         score.setMaxScore(prefs.getFloat("maxScore"));
         addActor(score);
     }
@@ -172,6 +181,7 @@ public class GameStage extends Stage implements ContactListener {
         setUpStart();
         setUpAbout();
         setUpShare();
+        setUpExit();
     }
 
     private Rectangle createButtonBounds(ConfigButton configButton){
@@ -188,18 +198,33 @@ public class GameStage extends Stage implements ContactListener {
         addActor(startButton);
     }
 
+    private Boolean aboutEnabled;
+    private boolean aboutRequest = false;
+
     private void setUpAbout() {
 
-        GameManager.getInstance().isDialogEnabled(new GameManager.AboutDialogEnabledListener() {
-            @Override
-            public void onAboutEnabled(boolean enabled) {
-                if(enabled && GameManager.getInstance().getGameState() == GameState.OVER) {
-                    Rectangle aboutButtonBounds = createButtonBounds(ConfigLoader.getConfig().getAboutButton());
-                    aboutButton = new AboutButton(aboutButtonBounds, new GameAboutButtonListener());
-                    addActor(aboutButton);
-                }
+        Rectangle aboutButtonBounds = createButtonBounds(ConfigLoader.getConfig().getAboutButton());
+        aboutButton = new AboutButton(aboutButtonBounds, new GameAboutButtonListener());
+        addActor(aboutButton);
+        aboutButton.setVisible(false);
+        Gdx.app.log("aboutEnabled", String.valueOf(aboutEnabled)+" "+GameManager.getInstance().getGameState().name());
+
+        if(aboutEnabled == null) {
+            if(!aboutRequest) {
+                aboutRequest = true;
+                GameManager.getInstance().isDialogEnabled(new GameManager.AboutDialogEnabledListener() {
+                    @Override
+                    public void onAboutEnabled(boolean enabled) {
+                        Gdx.app.log("about", String.valueOf(enabled));
+                        aboutEnabled = enabled;
+                        aboutRequest = false;
+                        aboutButton.setVisible(enabled && GameManager.getInstance().getGameState() == GameState.OVER);
+                    }
+                });
             }
-        });
+        }else {
+            aboutButton.setVisible(aboutEnabled && GameManager.getInstance().getGameState() == GameState.OVER);
+        }
 
     }
 
@@ -207,6 +232,12 @@ public class GameStage extends Stage implements ContactListener {
         Rectangle shareButtonBounds =  createButtonBounds(ConfigLoader.getConfig().getShareButton());
         shareButton = new ShareButton(shareButtonBounds, new GameShareButtonListener());
         addActor(shareButton);
+    }
+
+    private void setUpExit() {
+        Rectangle exitButtonBounds =  createButtonBounds(ConfigLoader.getConfig().getExitButton());
+        exitButton = new ExitButton(exitButtonBounds, new GameExitButtonListener());
+        addActor(exitButton);
     }
 
     private void setUpWorld() {
@@ -277,7 +308,7 @@ public class GameStage extends Stage implements ContactListener {
     }
 
     private void setUpPauseLabel() {
-        Rectangle pauseLabelBounds = new Rectangle(0, getCamera().viewportHeight * 7 / 9,
+        Rectangle pauseLabelBounds = new Rectangle(0, getCamera().viewportHeight /2,
                 getCamera().viewportWidth, getCamera().viewportHeight / 4);
         addActor(new PausedLabel(pauseLabelBounds));
     }
@@ -296,6 +327,7 @@ public class GameStage extends Stage implements ContactListener {
         }
         setUpLeftTutorial();
         setUpRightTutorial();
+        setUpTopTutorial();
         tutorialShown = true;
     }
 
@@ -315,6 +347,12 @@ public class GameStage extends Stage implements ContactListener {
                 width);
         addActor(new Tutorial(rightTutorialBounds, Constants.TUTORIAL_BOX_NAME, Constants.RUNNER_JUMPING_HINT,
                 Constants.TUTORIAL_RIGHT_TEXT, true));
+    }
+
+    private void setUpTopTutorial() {
+        Rectangle gameLabelBounds = new Rectangle(200, getCamera().viewportHeight - 100,
+                getCamera().viewportWidth - 400, getCamera().viewportHeight / 4);
+        addActor(new BonusLabel(gameLabelBounds));
     }
 
     @Override
@@ -560,12 +598,16 @@ public class GameStage extends Stage implements ContactListener {
 
         @Override
         public void onPause() {
-            onGamePaused();
+            if (GameManager.getInstance().getGameState() != GameState.OVER) {
+                onGamePaused();
+            }
         }
 
         @Override
         public void onResume() {
-            onGameResumed();
+            if (GameManager.getInstance().getGameState() != GameState.OVER) {
+                onGameResumed();
+            }
         }
 
     }
@@ -617,6 +659,15 @@ public class GameStage extends Stage implements ContactListener {
 
     }
 
+    private class GameExitButtonListener implements ExitButton.ExitButtonListener {
+
+        @Override
+        public void onExit() {
+            Gdx.app.exit();
+        }
+
+    }
+
 
     Long timerDelay = null;
 
@@ -640,8 +691,15 @@ public class GameStage extends Stage implements ContactListener {
 
     private void onGameOver() {
         gameOverCounter++;
-
         GameManager.getInstance().setGameState(GameState.OVER);
+        setUpMainMenu();
+        GameManager.getInstance().resetDifficulty();
+
+
+        timerDelay = null;
+        if (timer != null) {
+            timer.stop();
+        }
         if(totalTimePassed > 0 && gameOverCounter > 3) {
             gameOverCounter = 0;
 
@@ -652,13 +710,7 @@ public class GameStage extends Stage implements ContactListener {
                 }
             });
         }
-        GameManager.getInstance().resetDifficulty();
         totalTimePassed = 0;
-        setUpMainMenu();
-        timerDelay = null;
-        if (timer != null) {
-            timer.stop();
-        }
     }
 
     private void onGameAbout() {

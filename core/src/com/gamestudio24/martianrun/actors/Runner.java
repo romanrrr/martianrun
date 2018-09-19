@@ -35,10 +35,10 @@ public class Runner extends GameActor {
     private boolean dodging;
     private boolean jumping;
     private boolean hit;
-    private Animation runningAnimation;
-    private Animation jumpingAnimation;
-    private Animation dodgingAnimation;
-    private Animation hitAnimation;
+    private Animation<TextureRegion> runningAnimation;
+    private Animation<TextureRegion> jumpingAnimation;
+    private Animation<TextureRegion> dodgingAnimation;
+    private Animation<TextureRegion> hitAnimation;
     private float stateTime;
 
     private Sound jumpSound;
@@ -68,12 +68,13 @@ public class Runner extends GameActor {
 
         float x = screenRectangle.x - (screenRectangle.width * 0.1f);
         float y = screenRectangle.y;
-        float width = screenRectangle.width * 1.2f;
+        float width = screenRectangle.width * 1f;
         if (GameManager.getInstance().getGameState() == GameState.RUNNING) {
             stateTime += Gdx.graphics.getDeltaTime();
         }
         if (dodging) {
-            batch.draw(dodgingAnimation.getKeyFrame(stateTime, true), x, y + screenRectangle.height / 4, width, screenRectangle.height * 3 / 4);
+            width = screenRectangle.width * 2;
+            batch.draw(dodgingAnimation.getKeyFrame(stateTime, true), x, y + screenRectangle.height / 4, width, screenRectangle.height / 2);
         } else if (hit) {
             // When he's hit we also want to apply rotation if the body has been rotated
             batch.draw(hitAnimation.getKeyFrame(stateTime, false), x, y, width, screenRectangle.height, width, screenRectangle.height, 1f,

@@ -1,0 +1,55 @@
+.item-field[data-field-name="ImageSelect"] .add-picture-select {
+    width: 200px !important;
+    height: 266px !important;;
+}
+
+
+.item-field[data-field-name="ImageSelect"] {
+    width: 255px !important;;
+    display: inline-block !important;;
+}
+
+div#dropzone- {
+    width: auto;
+}
+
+.row.descriptionBlock {
+    display: block;
+}
+
+.spoiler-wrapper {
+    width: 100%;
+    background-color: #99CC33;
+    text-decoration: none;
+    color: #151515;
+    font-weight: 700;
+    text-align: center;
+    position: relative;
+    left: 0px;
+    margin: 25px 0 30px 0;
+    border-radius: 0px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+a.spoiler-button {
+    border-bottom: 0;
+    color: black !important;
+    margin: 10px 0 10px 0;
+}
+.spoiler-contents {
+    background-color: #F5EFD0;
+    border: 0px solid white !Important;
+    border-radius: 0 !important;
+    padding: 10px !important;
+}
+.spoiler-contents label {
+    font-weight: 200;
+}
+div.form-inner-wrapper div.item.text-label {
+   word-break: normal;
+   margin-left: 8px !important;
+}
+
+.videoYouTube{
+   margin-left: 0px !important;
+   text-align: center !important;
+}

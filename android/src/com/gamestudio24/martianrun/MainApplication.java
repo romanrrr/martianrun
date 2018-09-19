@@ -20,13 +20,14 @@ import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
-import com.gamestudio24.martianrun.android.R;
+import com.appsgeyser.sdk.AppsgeyserSDK;
 
 public class MainApplication extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
+        AppsgeyserSDK.setApplicationInstance(this);
     }
 
     @Override

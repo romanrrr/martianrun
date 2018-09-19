@@ -20,8 +20,8 @@ allprojects {
     version = '1.0'
     ext {
         appName = 'Martian Run!'
-        gdxVersion = '1.1.0'
-        roboVMVersion = '0.0.13'
+        gdxVersion = '1.9.5'
+        roboVMVersion = '2.3.0'
     }
 
     repositories {
@@ -35,6 +35,17 @@ allprojects {
         }
         jcenter()
         google()
+
+        maven { url "https://jitpack.io" }
+        maven {
+            name "Fyber's maven repo"
+            url "https://fyber.bintray.com/maven"
+        }
+        maven { url "https://s3.amazonaws.com/moat-sdk-builds" }
+        maven { url "http://dl.appnext.com/" }
+        maven { url "https://adcolony.bintray.com/AdColony" }
+        maven { url "https://dl.bintray.com/areametrics/AreaMetricsSDK" }
+        maven { url "http://dl.bintray.com/42matters/android" }
     }
 }
 
@@ -71,13 +82,7 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-armeabi-v7a"
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86"
-        compile project(':appsgeysersdk')
-        compile 'com.google.android.gms:play-services-ads:11.0.4'
-        compile 'com.google.android.gms:play-services-gcm:11.0.4'
-        compile 'com.google.android.gms:play-services-location:11.0.4'
-        compile 'com.android.support:cardview-v7:26.0.1'
-        compile 'com.android.support:design:26.0.1'
-        compile 'com.danikula:videocache:2.7.0'
+
         compile 'com.android.support:multidex:1.0.1'
     }
 }

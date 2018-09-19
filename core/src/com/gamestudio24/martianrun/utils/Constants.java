@@ -91,5 +91,6 @@ public class Constants {
     public static final String PAUSED_LABEL = "Paused";
     public static final String NEW_RECORD_LABEL = "New record!";
     public static final String RESULT_SCORES_LABEL = "Your scores: ";
+    public static final String RESULT_MAX_SCORES_LABEL = "Max scores: ";
 
 }

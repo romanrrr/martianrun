@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "com.gamestudio24.cityescape.android"
         targetSdkVersion 26
-        minSdkVersion 14
+        minSdkVersion 16
         versionCode 21
         versionName "1.5.1"
         multiDexEnabled true
@@ -38,9 +38,19 @@ android {
         }
     }
 
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
     buildTypes {
         release {
             signingConfig signingConfigs.release
+        }
+    }
+
+    defaultConfig{
+        ndk{
+            abiFilters "armeabi", "x86"
         }
     }
 }
@@ -54,19 +64,6 @@ task copyAndroidNatives() {
     file("libs/armeabi-v7a/").mkdirs();
     file("libs/x86/").mkdirs();
 
-    configurations.natives.files.each { jar ->
-        def outputDir = null
-        if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("libs/armeabi-v7a")
-        if (jar.name.endsWith("natives-armeabi.jar")) outputDir = file("libs/armeabi")
-        if (jar.name.endsWith("natives-x86.jar")) outputDir = file("libs/x86")
-        if (outputDir != null) {
-            copy {
-                from zipTree(jar)
-                into outputDir
-                include "*.so"
-            }
-        }
-    }
 }
 
 task run(type: Exec) {

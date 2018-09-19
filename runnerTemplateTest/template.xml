@@ -1,0 +1,206 @@
+<template name="runnerGame" caption="Runner game" createType="steps"
+    keywords="game, runner, endless runner" orientation="landscape" type="native" version="1.0.0">
+    <livr rules="/rules.json"/>
+
+    <description>
+        Create your own <b>Runner</b> game! A game about character that rum all the time and need to
+        overcome obstacles (or enemies) to collect as much goods (coins for example) as possible.
+        The goal of the game is to get the highest score.
+        <br />
+
+        You can find different free game assets
+        <a href="https://itch.io/game-assets/free" target="_blank">here</a> and
+        <a href="https://opengameart.org/" target="_blank">here</a>
+        <br />
+
+        Icon made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
+    </description>
+    <customStyle src="style_spoiler.css" />
+    <customScript src="runner.js"/>
+
+    <step name="enemiesImages" label="Character and enemies images">
+        <label>Upload runner animation frames here. If you have a GIF animation you can split it into frames <a href=" http://picasion.com/get-frames/" target="_blank">here</a>.
+            If in the result application the animation is too fast, you can upload every frame twice to make it slower.
+            <br/>
+            <b>You can find different free game assets
+            <a href="https://itch.io/game-assets/free" target="_blank">here</a> and
+            <a href="https://opengameart.org/" target="_blank">here</a>
+            </b>
+            <br />
+        </label>
+        <textField name="preVideo" label=""/>
+
+        <label>Pictures with 1:2 aspect ratio</label>
+        <multiple name="runnerRunningAnimationImage" initialCount="1" label="" maxCount="1" minCount="1">
+            <multipleImages name="runnerRunningAnimation" initialCount="1" label="Runner run animation:"
+                maxCount="50" minCount="1" />
+        </multiple>
+
+        <label>Pictures with 1:2 aspect ratio</label>
+        <multiple name="runnerJumpAnimationImage" initialCount="1" label="" maxCount="1" minCount="1">
+            <multipleImages name="runnerJumpAnimation" initialCount="1" label="Runner jump animation:"
+                maxCount="50" minCount="1" />
+        </multiple>
+
+        <label>Pictures with 2:1 aspect ratio</label>
+        <multiple name="runnerSlideAnimationImage" initialCount="1" label="" maxCount="1" minCount="1">
+            <multipleImages name="runnerSlideAnimation" initialCount="1" label="Runner slide animation:"
+                maxCount="50" minCount="1" />
+        </multiple>
+
+        <label>Pictures with 1:2 aspect ratio</label>
+        <multiple name="runnerDeadAnimationImage" initialCount="1" label="" maxCount="1" minCount="1">
+            <multipleImages name="runnerDeadAnimation" initialCount="1" label="Runner dead animation:"
+                maxCount="50" minCount="1" />
+        </multiple>
+
+        <label>Pictures with 1:1 aspect ratio</label>
+        <multiple name="coinAnimationImage" initialCount="1" label="" maxCount="1" minCount="1">
+            <multipleImages name="coinAnimation" initialCount="1" label="Coin animation:" maxCount="50"
+                minCount="1" />
+        </multiple>
+        <label><b>Enemies</b></label>
+        <label>Add enemies here. Runner have to avoid enemies to get highest score.
+            Add at least 3 enemies or your game will be boring for users.
+            Try to add different types of enemies with different size and different appearance.
+        </label>
+        <textField name="preEnemies" label=""/>
+        <multiple name="enemies" initialCount="1" label="Add enemies: " maxCount="20" minCount="1">
+
+            <label>Height</label>
+            <comboGroup name="enemyHeight" label="Select enemy Height:" value="1">
+                <comboBox label="1 unit" value="1" />
+                <comboBox label="2 unit" value="2" />
+            </comboGroup>
+
+            <label>Width</label>
+            <comboGroup name="enemyWidth" label="Select enemy Width:" value="1">
+                <comboBox label="1 unit" value="1" />
+                <comboBox label="2 unit" value="2" />
+            </comboGroup>
+
+            <comboGroup name="enemyYIndex" label="Select position:" value="1">
+                <comboBox label="Ground" value="1" />
+                <comboBox label="Flying" value="2.5" />
+            </comboGroup>
+            <multipleImages name="animation" initialCount="1" label="Add enemy animation:"
+                maxCount="50" minCount="1" />
+        </multiple>
+    </step>
+    <step name="gameImages" label="Background and game images">
+        <label>Upload here the Logo of your game. The game have to have the main theme - Why is main
+            hero actually running?
+            The logo need to be comply with this main idea of your game.
+        </label>
+
+        <image name="logo" crop="true" label="Game logo (640x192):"
+            resizeHeight="192" resizeWidth="640"/>
+
+        <image name="groundImage" crop="true" label="Ground texture (48x48):" required="true"
+            resizeHeight="48" resizeWidth="48" />
+
+        <label><b>Background</b></label>
+        <label>Upload background images here. You can set the speed of movement for every layer.
+            If you set different speed for different layers it will create parallax effect.<br/>
+
+            <b>Every new layer will be drawn on top of the previous layer</b><br/>
+
+            Parallax background examples:<br/>
+            <a href="https://raventale.itch.io/parallax-background" target="_blank">https://raventale.itch.io/parallax-background</a><br/>
+            <a href="https://edermunizz.itch.io/free-pixel-art-hill" target="_blank">https://edermunizz.itch.io/free-pixel-art-hill</a><br/>
+            <a href="https://ansimuz.itch.io/industrial-parallax-background" target="_blank">https://ansimuz.itch.io/industrial-parallax-background</a><br/>
+        </label>
+
+        <textField name="preVideoBackground" label=""/>
+        <multiple name="backgroundLayers" initialCount="1" label="Add background layers: "
+            maxCount="20" minCount="1" >
+            <image name="layerImage" crop="false" label="Layer Image:" required="true" resizeHeight="256" resizeWidth="512"/>
+            <label>Speed in percentage where 100% is speed of the character</label>
+            <rangeField name="speedPercentage" required="true" type="single" />
+
+        </multiple>
+
+        <label>Click on "Game interface images" to upload your own buttons for the game.
+            It's better when your game has its own style.
+            <br/>
+            UI assets are from:
+            <a href="http://www.fleamedia.com/category/free-resource" target="_blank">
+                http://www.fleamedia.com/category/free-resource
+            </a><br/>
+            Different UI assets you cand find here:<br/>
+            <a href="https://www.creativegameassets.com/free-assets" target="_blank">
+                https://www.creativegameassets.com/free-assets
+            </a><br/>
+            <a href="https://gameartpartners.com/royalty-free-gui/" target="_blank">
+                https://gameartpartners.com/royalty-free-gui/
+            </a><br/>
+            <a href="https://www.vecteezy.com/free-vector/game-ui" target="_blank">
+                https://www.vecteezy.com/free-vector/game-ui
+            </a><br/>
+            <br />
+        </label>
+        <spoiler name="default" label="Game interface images">
+            <imageSelect name="startButtonImage" label="Start button (128x128):" resizeHeight="128"
+                resizeWidth="128" type="image" upload="true" value="1">
+                <imageOption src="/play.png" value="1" />
+            </imageSelect>
+            <imageSelect name="musicButtonImage" label="Music button (128x128):" resizeHeight="128"
+                resizeWidth="128" type="image" upload="true" value="1">
+                <imageOption src="/music.png" value="1" />
+            </imageSelect>
+            <imageSelect name="soundButtonImage" label="Sound button (128x128):" resizeHeight="128"
+                resizeWidth="128" type="image" upload="true" value="1">
+                <imageOption src="/sound_on.png" value="1" />
+            </imageSelect>
+            <imageSelect name="soundOffButtonImage" label="Sound off button (128x128):"
+                resizeHeight="128" resizeWidth="128" type="image" upload="true" value="1">
+                <imageOption src="/sound_off.png" value="1" />
+            </imageSelect>
+            <imageSelect name="playButtonImage" label="Play button (128x128):" resizeHeight="128"
+                resizeWidth="128" type="image" upload="true" value="1">
+                <imageOption src="/play.png" value="1" />
+            </imageSelect>
+            <imageSelect name="shareButtonImage" label="Share button (128x128):" resizeHeight="128"
+                resizeWidth="128" type="image" upload="true" value="1">
+                <imageOption src="/send.png" value="1" />
+            </imageSelect>
+            <imageSelect name="exitButtonImage" label="Exit button (128x128):" resizeHeight="128"
+                resizeWidth="128" type="image" upload="true" value="1">
+                <imageOption src="/exit.png" value="1" />
+            </imageSelect>
+            <imageSelect name="pauseButtonImage" label="Pause button (128x128):" resizeHeight="128"
+                resizeWidth="128" type="image" upload="true" value="1">
+                <imageOption src="/pause.png" value="1" />
+            </imageSelect>
+            <imageSelect name="aboutButtonImage" label="About button (128x128):" resizeHeight="128"
+                resizeWidth="128" type="image" upload="true" value="1">
+                <imageOption src="/about.png" value="1" />
+            </imageSelect>
+        </spoiler>
+    </step>
+    <step name="gameSounds" label="Game sounds and font">
+        <label>The game sounds help users to fully engage in the game. Use sounds that would
+            comply with your main game theme.
+
+            Free game sounds can be found here:<br/>
+            <a href="https://www.zapsplat.com/sound-effect-category/game-sounds/" target="_blank">https://www.zapsplat.com/sound-effect-category/game-sounds/</a><br/>
+            <a href="https://www.audiomicro.com/free-sound-effects" target="_blank">https://www.audiomicro.com/free-sound-effects</a><br/>
+            <a href="https://freesound.org/" target="_blank">https://freesound.org/</a><br/>
+
+            Free music:<br/>
+            <a href="https://www.dl-sounds.com/royalty-free/category/game-film/video-game/" target="_blank">https://www.dl-sounds.com/royalty-free/category/game-film/video-game/</a><br/>
+            <a href="https://soundimage.org/" target="_blank">https://soundimage.org/</a><br/>
+
+            Free fonts:<br/>
+            <a href="https://www.1001fonts.com/video-game-fonts.html" target="_blank">https://www.1001fonts.com/video-game-fonts.html</a><br/>
+            <a href="http://www.fontspace.com/category/video%20games" target="_blank">http://www.fontspace.com/category/video%20games</a><br/>
+
+        </label>
+        <file name="font" extensions="ttf" label="Upload font file:" />
+        <file name="jumpSound" extensions="mp3,wav,ogg" label="Upload jump sound:" />
+        <file name="hitSound" extensions="mp3,wav,ogg" label="Upload hit sound:" />
+        <file name="coinSound" extensions="mp3,wav,ogg" label="Upload coin sound:" />
+        <file name="music" extensions="mp3,wav,ogg" label="Upload music:" />
+    </step>
+
+</template>

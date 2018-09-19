@@ -30,6 +30,7 @@ public class Config {
     private ConfigButton musicButton;
     private ConfigButton soundButton;
     private ConfigButton shareButton;
+    private ConfigButton exitButton;
     private ConfigButton pauseButton;
     private ConfigButton aboutButton;
 
@@ -225,5 +226,13 @@ public class Config {
 
     public void setFont(String font) {
         this.font = font;
+    }
+
+    public ConfigButton getExitButton() {
+        return exitButton;
+    }
+
+    public void setExitButton(ConfigButton exitButton) {
+        this.exitButton = exitButton;
     }
 }

@@ -17,8 +17,10 @@
 package com.gamestudio24.martianrun.actors;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.gamestudio24.martianrun.box2d.EnemyUserData;
 import com.gamestudio24.martianrun.box2d.InterractionUserData;
@@ -28,7 +30,7 @@ import com.gamestudio24.martianrun.utils.GameManager;
 
 public class Interaction extends GameActor {
 
-    private Animation animation;
+    private Animation<TextureRegion> animation;
     private float stateTime;
 
     public Interaction(Body body) {

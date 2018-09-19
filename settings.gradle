@@ -1,1 +1,1 @@
-include 'desktop', 'android', 'core', ':appsgeysersdk'
+include 'desktop', 'android', 'core'

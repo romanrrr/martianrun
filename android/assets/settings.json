@@ -1,220 +1,180 @@
 {
-  "runnerRunningAnimation": [
+  "preVideo": "",
+  "runnerRunningAnimationImage": [
     {
-      "path": "runner\/Run__000.png"
-    },
-    {
-      "path": "runner\/Run__001.png"
-    },
-    {
-      "path": "runner\/Run__002.png"
-    },
-    {
-      "path": "runner\/Run__003.png"
-    },
-    {
-      "path": "runner\/Run__004.png"
-    },
-    {
-      "path": "runner\/Run__005.png"
-    },
-    {
-      "path": "runner\/Run__006.png"
-    },
-    {
-      "path": "runner\/Run__007.png"
-    },
-    {
-      "path": "runner\/Run__008.png"
-    },
-    {
-      "path": "runner\/Run__009.png"
+      "runnerRunningAnimation": [
+        {
+          "path": "uploaded_data\/crop5b8f86c9240d5.gif",
+          "thumb": "uploaded_data\/thumb_crop5b8f86c924117.gif"
+        },
+        {
+          "path": "uploaded_data\/crop5b8f86c94ff13.gif",
+          "thumb": "uploaded_data\/thumb_crop5b8f86c94ff54.gif"
+        },
+        {
+          "path": "uploaded_data\/crop5b8f86c95947d.gif",
+          "thumb": "uploaded_data\/thumb_crop5b8f86c9594c2.gif"
+        },
+        {
+          "path": "uploaded_data\/crop5b8f86c980278.gif",
+          "thumb": "uploaded_data\/thumb_crop5b8f86c9802bc.gif"
+        },
+        {
+          "path": "uploaded_data\/crop5b8f86c98a568.gif",
+          "thumb": "uploaded_data\/thumb_crop5b8f86c98a5ac.gif"
+        },
+        {
+          "path": "uploaded_data\/crop5b8f86c9b0758.gif",
+          "thumb": "uploaded_data\/thumb_crop5b8f86c9b079a.gif"
+        },
+        {
+          "path": "uploaded_data\/crop5b8f86c9bad38.gif",
+          "thumb": "uploaded_data\/thumb_crop5b8f86c9bad7a.gif"
+        },
+        {
+          "path": "uploaded_data\/crop5b8f86c9e00f6.gif",
+          "thumb": "uploaded_data\/thumb_crop5b8f86c9e0133.gif"
+        }
+      ]
     }
   ],
-  "runnerJumpAnimation": [
+  "runnerJumpAnimationImage": [
     {
-      "path": "runner\/Jump__000.png"
+      "runnerJumpAnimation": [
+        {
+          "path": "uploaded_data\/crop5b8f86ce493d0.gif",
+          "thumb": "uploaded_data\/thumb_crop5b8f86ce49419.gif"
+        },
+        {
+          "path": "uploaded_data\/crop5b8f86ce4933f.gif",
+          "thumb": "uploaded_data\/thumb_crop5b8f86ce49382.gif"
+        },
+        {
+          "path": "uploaded_data\/crop5b8f86ce79439.png",
+          "thumb": "uploaded_data\/thumb_crop5b8f86ce7947b.png"
+        }
+      ]
     }
   ],
-  "runnerSlideAnimation": [
+  "runnerSlideAnimationImage": [
     {
-      "path": "runner\/Slide__000.png"
-    },
-    {
-      "path": "runner\/Slide__001.png"
-    },
-    {
-      "path": "runner\/Slide__002.png"
-    },
-    {
-      "path": "runner\/Slide__003.png"
-    },
-    {
-      "path": "runner\/Slide__004.png"
-    },
-    {
-      "path": "runner\/Slide__005.png"
-    },
-    {
-      "path": "runner\/Slide__006.png"
-    },
-    {
-      "path": "runner\/Slide__007.png"
-    },
-    {
-      "path": "runner\/Slide__008.png"
-    },
-    {
-      "path": "runner\/Slide__009.png"
+      "runnerSlideAnimation": [
+        {
+          "path": "uploaded_data\/crop5b8f86d2dd195.gif",
+          "thumb": "uploaded_data\/thumb_crop5b8f86d2dd1fd.gif"
+        }
+      ]
     }
   ],
-  "runnerDeadAnimation": [
+  "runnerDeadAnimationImage": [
     {
-      "path": "runner\/Dead__000.png"
+      "runnerDeadAnimation": [
+        {
+          "path": "uploaded_data\/crop5b8f86d72b543.gif",
+          "thumb": "uploaded_data\/thumb_crop5b8f86d72b584.gif"
+        }
+      ]
     }
   ],
-  "coinAnimation": [
+  "coinAnimationImage": [
     {
-      "path": "coin.png"
+      "coinAnimation": [
+        {
+          "path": "uploaded_data\/crop5b8f86dcea405.png",
+          "thumb": "uploaded_data\/thumb_crop5b8f86dcea444.png"
+        },
+        {
+          "path": "uploaded_data\/crop5b8f86dcea897.png",
+          "thumb": "uploaded_data\/thumb_crop5b8f86dcea8da.png"
+        },
+        {
+          "path": "uploaded_data\/crop5b8f86dd255e6.png",
+          "thumb": "uploaded_data\/thumb_crop5b8f86dd25625.png"
+        },
+        {
+          "path": "uploaded_data\/crop5b8f86dd25fb3.png",
+          "thumb": "uploaded_data\/thumb_crop5b8f86dd25ff0.png"
+        },
+        {
+          "path": "uploaded_data\/crop5b8f86dd54549.png",
+          "thumb": "uploaded_data\/thumb_crop5b8f86dd54587.png"
+        },
+        {
+          "path": "uploaded_data\/crop5b8f86dd54f6a.png",
+          "thumb": "uploaded_data\/thumb_crop5b8f86dd54fa8.png"
+        },
+        {
+          "path": "uploaded_data\/crop5b8f86dd837fa.png",
+          "thumb": "uploaded_data\/thumb_crop5b8f86dd83838.png"
+        },
+        {
+          "path": "uploaded_data\/crop5b8f86dd84338.png",
+          "thumb": "uploaded_data\/thumb_crop5b8f86dd84376.png"
+        },
+        {
+          "path": "uploaded_data\/crop5b8f86ddb3064.png",
+          "thumb": "uploaded_data\/thumb_crop5b8f86ddb30a2.png"
+        }
+      ]
     }
   ],
+  "preEnemies": "",
   "enemies": [
     {
-      "enemyWidth": 1,
-      "enemyHeight": 1,
-      "enemyYIndex": 1,
+      "enemyHeight": "1",
+      "enemyWidth": "1",
+      "enemyYIndex": "1",
       "animation": [
         {
-          "path": "uploaded_data\/monster-1-frame-1.png"
-        },
-        {
-          "path": "uploaded_data\/monster-1-frame-1.png"
-        },
-        {
-          "path": "uploaded_data\/monster-1-frame-1.png"
-        },
-        {
-          "path": "uploaded_data\/monster-1-frame-2.png"
-        },
-        {
-          "path": "uploaded_data\/monster-1-frame-2.png"
-        },
-        {
-          "path": "uploaded_data\/monster-1-frame-2.png"
-        }
-      ]
-    },
-    {
-      "enemyWidth": 2,
-      "enemyHeight": 1,
-      "enemyYIndex": 2.5,
-      "animation": [
-        {
-          "path": "uploaded_data\/ufo.png"
-        }
-      ]
-    },
-    {
-      "enemyWidth": 1,
-      "enemyHeight": 2,
-      "enemyYIndex": 1,
-      "animation": [
-        {
-          "path": "uploaded_data\/spike.png"
-        }
-      ]
-    },
-    {
-      "enemyWidth": 2,
-      "enemyHeight": 1,
-      "enemyYIndex": 1,
-      "animation": [
-        {
-          "path": "uploaded_data\/spikeA.png"
-        }
-      ]
-    },
-    {
-      "enemyWidth": 2,
-      "enemyHeight": 1,
-      "enemyYIndex": 1,
-      "animation": [
-        {
-          "path": "uploaded_data\/spikeB.png"
-        }
-      ]
-    },
-    {
-      "enemyWidth": 2,
-      "enemyHeight": 2,
-      "enemyYIndex": 1,
-      "animation": [
-        {
-          "path": "uploaded_data\/monster-2frame-1.png"
-        },
-        {
-          "path": "uploaded_data\/monster-2frame-1.png"
-        },
-        {
-          "path": "uploaded_data\/monster-2frame-1.png"
-        },
-        {
-          "path": "uploaded_data\/monster-2frame-2.png"
-        },
-        {
-          "path": "uploaded_data\/monster-2frame-2.png"
-        },
-        {
-          "path": "uploaded_data\/monster-2frame-2.png"
+          "path": "uploaded_data\/crop5b8f86edc824a.png",
+          "thumb": "uploaded_data\/thumb_crop5b8f86edc828b.png"
         }
       ]
     }
   ],
+  "logo": "",
+  "groundImage": "uploaded_data\/image2148337615b8f876907614.png",
+  "preVideoBackground": "",
   "backgroundLayers": [
     {
-      "layerImage": "background\/background_layer_1.png",
-      "speedPercentage": 0
+      "layerImage": "uploaded_data\/image18934187795b8f8769076cb.png",
+      "speedPercentage": "0"
     },
     {
-      "layerImage": "background\/background_layer_2.png",
-      "speedPercentage": 30
+      "layerImage": "uploaded_data\/image15299745405b8f87690770d.png",
+      "speedPercentage": "30"
     },
     {
-      "layerImage": "background\/background_layer_3.png",
-      "speedPercentage": 60
+      "layerImage": "uploaded_data\/image7598066395b8f87690774f.png",
+      "speedPercentage": "70"
     },
     {
-      "layerImage": "background\/background_layer_4.png",
-      "speedPercentage": 100
+      "layerImage": "uploaded_data\/image2763978165b8f87690778f.png",
+      "speedPercentage": "100"
     }
   ],
-  "groundImage": "ground.png",
-  "font": "Bubblegum.ttf",
-  "jumpSound": "jump.wav",
-  "hitSound": "hit.wav",
-  "coinSound": "coin.wav",
-  "music": "DefenseLine.mp3",
-
-
-  "startButtonImage": "uploaded_data\/play.png",
-  "musicButtonImage": "uploaded_data\/music.png",
-  "soundButtonImage": "uploaded_data\/sound_on.png",
-  "soundOffButtonImage": "uploaded_data\/sound_off.png",
-  "shareButtonImage": "uploaded_data\/share.png",
-
-  "playButtonImage": "uploaded_data\/play.png",
-  "pauseButtonImage": "uploaded_data\/pause.png",
-
-  "aboutButtonImage": "uploaded_data\/about.png",
-
-  "logo": "",
-
-  "name": "My Super Runner",
-  "template": "fiveWord",
+  "default": {
+    "startButtonImage": "uploaded_data\/play.png",
+    "musicButtonImage": "uploaded_data\/music.png",
+    "soundButtonImage": "uploaded_data\/sound_on.png",
+    "soundOffButtonImage": "uploaded_data\/sound_off.png",
+    "playButtonImage": "uploaded_data\/play.png",
+    "shareButtonImage": "uploaded_data\/send.png",
+    "pauseButtonImage": "uploaded_data\/pause.png",
+    "aboutButtonImage": "uploaded_data\/about.png",
+    "exitButtonImage": "uploaded_data\/about.png"
+  },
+  "font": "",
+  "jumpSound": "",
+  "hitSound": "",
+  "coinSound": "",
+  "music": "",
+  "name": "test fixes",
+  "template": "runnerGame",
   "icon": "uploaded_data\/icon.png",
   "themeColors": {
-    "colorPrimary": "#27562d",
-    "colorPrimaryDark": "#a80c26",
+    "colorPrimary": "#2196f3",
+    "colorPrimaryDark": "#1976D2",
     "colorAccent": "#448aff"
   }
 }

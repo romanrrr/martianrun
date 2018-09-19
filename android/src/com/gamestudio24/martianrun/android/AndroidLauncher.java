@@ -16,24 +16,18 @@
 
 package com.gamestudio24.martianrun.android;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import com.appsgeyser.sdk.AppsgeyserSDK;
-import com.appsgeyser.sdk.ads.AdView;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.gamestudio24.martianrun.MartianRun;
-
-import com.gamestudio24.martianrun.actors.Score;
 import com.gamestudio24.martianrun.utils.Constants;
 import com.gamestudio24.martianrun.utils.GameEventListener;
 import com.gamestudio24.martianrun.utils.GameManager;
@@ -47,7 +41,7 @@ public class AndroidLauncher extends AndroidApplication implements
 
     //private GameHelper gameHelper;
 
-    AdView adView;
+    RelativeLayout adView;
 
     private Boolean isDialogEnabled;
 
@@ -74,6 +68,7 @@ public class AndroidLauncher extends AndroidApplication implements
                 getString(R.string.app_metrica_on_start_event),
                 getString(R.string.template_version));
 
+
         // Game view
         View gameView = initializeForView(new MartianRun(this), config);
         adView = createAdView();
@@ -96,19 +91,14 @@ public class AndroidLauncher extends AndroidApplication implements
     @Override
     public void onResume() {
         super.onResume();
+        AppsgeyserSDK.getFastTrackAdsController().setBannerViewContainer(adView);
         AppsgeyserSDK.onResume(this);
-        if (adView != null) {
-            adView.onResume();
-        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
         AppsgeyserSDK.onPause(this);
-        if (adView != null) {
-            adView.onPause();
-        }
     }
 
 
@@ -152,9 +142,9 @@ public class AndroidLauncher extends AndroidApplication implements
         mAchievementsRequested = savedInstanceState.getBoolean(SAVED_ACHIEVEMENTS_REQUESTED, false);
     }
 
-    private AdView createAdView() {
+    private RelativeLayout createAdView() {
 
-        adView = new AdView(this, null);
+        adView = new RelativeLayout(this, null);
         final float scale = getResources().getDisplayMetrics().density;
         int dpHeightInPx = (int) (50 * scale);//50dp
         int dpWidthInPx = (int) (320 * scale);//50dp

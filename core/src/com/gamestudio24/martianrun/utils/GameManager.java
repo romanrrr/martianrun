@@ -52,6 +52,7 @@ public class GameManager implements GameEventListener {
     }
 
     public void setGameState(GameState gameState) {
+        Gdx.app.log("State", gameState.name());
         this.gameState = gameState;
     }
 
