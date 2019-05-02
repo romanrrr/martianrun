@@ -22,6 +22,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.gamestudio24.martianrun.MartianRun;
 import com.gamestudio24.martianrun.utils.Constants;
 import com.gamestudio24.martianrun.utils.GameEventListener;
+import com.gamestudio24.martianrun.utils.GameManager;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -29,15 +30,6 @@ public class DesktopLauncher {
         config.width = Constants.APP_WIDTH;
         config.height = Constants.APP_HEIGHT;
 		new LwjglApplication(new MartianRun(new GameEventListener() {
-            @Override
-            public void displayAd() {
-                Gdx.app.log(GameEventListener.class.getSimpleName(), "displayAd");
-            }
-
-            @Override
-            public void hideAd() {
-                Gdx.app.log(GameEventListener.class.getSimpleName(), "hideAd");
-            }
 
             @Override
             public void submitScore(int score) {
@@ -55,8 +47,8 @@ public class DesktopLauncher {
             }
 
             @Override
-            public void share() {
-                Gdx.app.log(GameEventListener.class.getSimpleName(), "share");
+            public void share(Integer score) {
+
             }
 
             @Override
@@ -70,58 +62,18 @@ public class DesktopLauncher {
             }
 
             @Override
-            public String getGettingStartedAchievementId() {
-                return null;
+            public void showFullscreenBanner(GameManager.FullscreenBannerClosedListener fullscreenBannerClosedListener) {
+
             }
 
             @Override
-            public String getLikeARoverAchievementId() {
-                return null;
+            public void isDialogEnabled(GameManager.AboutDialogEnabledListener aboutDialogEnabledListener) {
+
             }
 
             @Override
-            public String getSpiritAchievementId() {
-                return null;
-            }
+            public void showDialog() {
 
-            @Override
-            public String getCuriosityAchievementId() {
-                return null;
-            }
-
-            @Override
-            public String get5kClubAchievementId() {
-                return null;
-            }
-
-            @Override
-            public String get10kClubAchievementId() {
-                return null;
-            }
-
-            @Override
-            public String get25kClubAchievementId() {
-                return null;
-            }
-
-            @Override
-            public String get50kClubAchievementId() {
-                return null;
-            }
-
-            @Override
-            public String get10JumpStreetAchievementId() {
-                return null;
-            }
-
-            @Override
-            public String get100JumpStreetAchievementId() {
-                return null;
-            }
-
-            @Override
-            public String get500JumpStreetAchievementId() {
-                return null;
             }
 
         }), config);
